@@ -1,0 +1,85 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  width: 1440px;
+  margin: 0 auto;
+  background-color: #fff;
+}
+h1 {
+  font-weight: bold;
+  color: #000;
+  text-align: center;
+  padding: 20px;
+}
+.menu-top {
+  border-top: 2px #ccc solid;
+  border-bottom: 2px #ccc solid;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  /* way different */
+  /* display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0 150px;
+  */
+}
+.menu-top .menu-item {
+  list-style: none;
+  display: inline-block;
+  margin-right: 100px;
+}
+.menu {
+}
+.menu-link {
+}
+main {
+  font-size: 0;
+}
+.box {
+  padding: 50px 0 0 50px;
+  width: 20%;
+  font-size: 16px;
+  display: inline-block;
+  vertical-align: top;
+}
+.box-center {
+  margin-top: 10px;
+  width: 60%;
+  font-size: 16px;
+  display: inline-block;
+  border: #ccc dashed;
+  border-width: 0 2px 0 2px;
+  padding: 50px 10px 10px 10px;
+  text-align: center;
+}
+.box-content > h2 {
+  display: inline-block;
+  border-bottom: 3px #000 solid;
+  line-height: 17px;
+}
+.box-content > p {
+  margin-top: 50px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+.box-content > span {
+  display: block;
+  text-align: left;
+}
+.top {
+  margin-bottom: 20px;
+}
+
+.company {
+  display: inline-block;
+  margin-top: 10px;
+}
+footer {
+  border-top: 2px #333 solid;
+  text-align: center;
+}
