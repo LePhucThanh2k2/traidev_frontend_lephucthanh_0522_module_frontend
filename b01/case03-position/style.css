@@ -1,0 +1,82 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.box {
+  background-color: rgb(77, 245, 77);
+  width: 200px;
+  height: 90px;
+  line-height: 90px;
+  text-align: center;
+  position: fixed;
+}
+
+.tl {
+  top: 0;
+  left: 0;
+}
+.lc {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+.bl {
+  bottom: 0;
+  left: 0;
+}
+.tc {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.cc {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.bc {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.tr {
+  right: 0;
+  top: 0;
+}
+.rc {
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.br {
+  bottom: 0;
+  right: 0;
+}
+.box-small {
+  width: 100px;
+  height: 50px;
+  background-color: red;
+  position: absolute;
+  line-height: 50px;
+  text-align: center;
+}
+.ctl {
+  left: 0;
+  top: 0;
+  transform: translate(-100%, -100%);
+}
+.ctr {
+  right: 0;
+  top: 0;
+  transform: translate(100%, -100%);
+}
+.cbl {
+  bottom: 0;
+  left: 0;
+  transform: translate(-100%, 100%);
+}
+.cbr {
+  right: 0;
+  bottom: 0;
+  transform: translate(100%, 100%);
+}
