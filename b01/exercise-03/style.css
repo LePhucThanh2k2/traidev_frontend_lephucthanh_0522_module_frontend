@@ -6,9 +6,35 @@
 .container {
   background-color: rgb(243, 243, 18);
   font-size: 0;
-  display: inline-block;
-  width: 1000px;
+  width: 1230px;
+  margin: 0 auto;
 }
+.wrapper {
+  margin-left: -30px;
+  padding: 15px 0;
+  margin-top: -24px;
+}
+.box {
+  width: calc(25% - 30px);
+  margin-left: 30px;
+  display: inline-block;
+  font-size: 16px;
+  padding: 30px;
+  color: #fff;
+  vertical-align: middle;
+  margin-top: 24px;
+}
+p::first-letter {
+  color: yellow;
+  font-size: 200%;
+}
+.box:nth-child(odd) {
+  background-color: #17757f;
+}
+.box:nth-child(even) {
+  background-color: #282844;
+}
+/* 
 .wrapper {
   display: inline-block;
   vertical-align: middle;
@@ -23,18 +49,15 @@ p::first-letter {
   font-size: 200%;
 }
 .wrapper:nth-child(odd) {
-  background-color: rgb(2, 96, 77);
+  background-color: #17757f;
 }
 .wrapper:nth-child(even) {
-  background-color: rgb(3, 12, 65);
+  background-color: #282844;
 }
 .wrapper {
-  margin-right: 30px;
-}
-.wrapper:last-child {
+  margin-left: 30px;
+} */
+/* .wrapper:last-child {
   margin-right: 0;
-
   width: 25%;
-}
-.box-top {
-}
+} */
