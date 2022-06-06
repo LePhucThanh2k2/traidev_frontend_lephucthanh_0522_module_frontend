@@ -34,30 +34,3 @@ p::first-letter {
 .box:nth-child(even) {
   background-color: #282844;
 }
-/* 
-.wrapper {
-  display: inline-block;
-  vertical-align: middle;
-  width: calc(25% - 30px);
-  font-size: 16px;
-  background-color: red;
-  color: #fff;
-  padding: 30px;
-}
-p::first-letter {
-  color: yellow;
-  font-size: 200%;
-}
-.wrapper:nth-child(odd) {
-  background-color: #17757f;
-}
-.wrapper:nth-child(even) {
-  background-color: #282844;
-}
-.wrapper {
-  margin-left: 30px;
-} */
-/* .wrapper:last-child {
-  margin-right: 0;
-  width: 25%;
-} */
