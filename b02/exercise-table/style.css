@@ -1,0 +1,97 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+}
+ul {
+  list-style: none;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px #ccc solid;
+}
+th {
+  padding: 15px;
+  color: #fff;
+  font-size: 20px;
+  text-align: left;
+}
+td {
+  padding: 15px;
+  text-align: left;
+}
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+tr:not(:last-of-type) {
+  border-bottom: 0.5px #ccc solid;
+}
+.wrapper {
+  padding: 63px 36px;
+}
+.head {
+  background-color: #415465;
+}
+.information span {
+  font-weight: bold;
+}
+.information p {
+  display: inline;
+  color: #333;
+}
+.product {
+  width: 208px;
+  height: 135px;
+  object-fit: cover;
+  overflow: hidden;
+}
+.activated {
+  background-color: #26a0b5;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+.not-activated {
+  background-color: #38ba98;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+.sort {
+  padding: 5px 10px;
+  border: 1px #ccc solid;
+  width: 75px;
+  display: block;
+}
+.action {
+  text-align: center;
+}
+
+.fa-pen {
+  background-color: #3fb59b;
+  padding: 10px;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+}
+.fa-trash {
+  background-color: #db3948;
+  padding: 10px;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+}
+.fa-arrows-up-down-left-right {
+  background-color: #6f7c85;
+  padding: 10px;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+}
