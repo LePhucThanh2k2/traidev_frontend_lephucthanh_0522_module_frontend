@@ -59,6 +59,7 @@ const select = document.querySelector(".select");
 let item = "";
 
 renderItems(todos);
+submit.dataset.isedit = "false";
 
 // EVENTS
 document.addEventListener("click", (e) => {
@@ -74,20 +75,44 @@ document.addEventListener("click", (e) => {
       renderItems(todos);
     }
   }
+
+  // Event Edit -- Error
+  if (ele.classList.contains("edit")) {
+    // set isEdit= true for submit
+    submit.dataset.isedit = "true";
+    todos.forEach((obj) => {
+      if (obj.id === ele.dataset.id) {
+        // display data out form
+        input.value = obj.name;
+        select.value = obj.level;
+        submit.addEventListener("click", () => {
+          if (submit.dataset.isedit === "true") {
+            obj.name = input.value;
+            obj.level = select.value;
+            renderItems(todos);
+            // reset submit
+            submit.dataset.isedit = "false";
+          }
+        });
+      }
+    });
+  }
 });
 
 // Add todo
 submit.addEventListener("click", () => {
-  const data = {};
-  data.id = createId(12);
-  if (input.value !== "") {
-    data.name = input.value;
-  } else {
-    alert("Please Enter Value On Input");
+  if (submit.dataset.isedit === "false") {
+    const data = {};
+    data.id = createId(12);
+    if (input.value !== "") {
+      data.name = input.value;
+      data.level = parseInt(select.value);
+      todos.unshift(data);
+      renderItems(todos);
+    } else {
+      alert("Please Enter Value On Input");
+    }
   }
-  data.level = select.value;
-  todos.unshift(data);
-  renderItems(todos);
 });
 
 // FUNCTIONS
@@ -119,7 +144,9 @@ function renderItems(items) {
           
         </td>
         <td>
-          <button class="btn btn-warning btn-sm">Edit</button>
+          <button class="btn btn-warning btn-sm edit"data-id="${
+            obj.id
+          }" >Edit</button>
           <button class="btn btn-danger btn-sm delete" data-id ="${
             obj.id
           }">Delete</button>
