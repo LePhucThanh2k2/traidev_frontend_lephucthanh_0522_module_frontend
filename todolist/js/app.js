@@ -53,6 +53,9 @@ let todos = [
 const badge = document.querySelector(".badge");
 const tbody = document.querySelector("tbody");
 const elementDelete = document.querySelector(".delete");
+const submit = document.querySelector(".submit");
+const input = document.querySelector(".input-text");
+const select = document.querySelector(".select");
 let item = "";
 
 renderItems(todos);
@@ -62,7 +65,7 @@ document.addEventListener("click", (e) => {
   ele = e.target;
 
   if (ele.classList.contains("delete")) {
-    if (confirm('are you sure?')) {
+    if (confirm("are you sure?")) {
       let id = ele.dataset.id;
       todos = todos.filter(function (obj) {
         return obj.id !== id;
@@ -70,8 +73,21 @@ document.addEventListener("click", (e) => {
 
       renderItems(todos);
     }
-
   }
+});
+
+// Add todo
+submit.addEventListener("click", () => {
+  const data = {};
+  data.id = createId(12);
+  if (input.value !== "") {
+    data.name = input.value;
+  } else {
+    alert("Please Enter Value On Input");
+  }
+  data.level = select.value;
+  todos.unshift(data);
+  renderItems(todos);
 });
 
 // FUNCTIONS
@@ -92,7 +108,7 @@ function handleBadge(n) {
 }
 
 function renderItems(items) {
-  let item = '';
+  let item = "";
   items.forEach((obj, idx) => {
     item += `
       <tr>
@@ -104,7 +120,9 @@ function renderItems(items) {
         </td>
         <td>
           <button class="btn btn-warning btn-sm">Edit</button>
-          <button class="btn btn-danger btn-sm delete" data-id ="${obj.id}">Delete</button>
+          <button class="btn btn-danger btn-sm delete" data-id ="${
+            obj.id
+          }">Delete</button>
         </td>
       </tr>
     `;
@@ -112,4 +130,13 @@ function renderItems(items) {
   });
 }
 
-
+function createId(length) {
+  var result = "";
+  var characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  var charactersLength = characters.length;
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
