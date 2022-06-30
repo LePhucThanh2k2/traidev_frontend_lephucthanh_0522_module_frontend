@@ -52,11 +52,12 @@ let todos = [
 ];
 const badge = document.querySelector(".badge");
 const tbody = document.querySelector("tbody");
+const elementDelete = document.querySelector(".delete");
 let item = "";
 todos.forEach((obj, idx) => {
   item += `
     <tr>
-      <th>${idx}</th>
+      <th>${idx + 1}</th>
       <td>${obj.name}</td>
       <td>
       ${handleBadge(obj.level)}
@@ -64,7 +65,9 @@ todos.forEach((obj, idx) => {
       </td>
       <td>
         <button class="btn btn-warning btn-sm">Edit</button>
-        <button class="btn btn-danger btn-sm">Delete</button>
+        <button class='btn btn-danger btn-sm delete data-id ="${
+          obj.id
+        }">Delete</button>
       </td>
     </tr>
   `;
@@ -86,3 +89,18 @@ function handleBadge(n) {
   }
   return `<span class="badge ${bgcColor}">${badge}</span>`;
 }
+
+document.addEventListener("click", (e) => {
+  ele = e.target;
+  let id = "";
+  let newArr = [];
+  if (ele.classList.contains("delete")) {
+    id = ele.dataset.id;
+    todos.forEach((obj, idx) => {
+      if (obj.id === id) newArr.push(obj);
+    });
+  }
+  todos.filter(() => newArr);
+  console.log(newArr);
+  console.log(todos);
+});
