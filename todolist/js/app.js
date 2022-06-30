@@ -50,14 +50,18 @@ let todos = [
     level: 1,
   },
 ];
+
 const badge = document.querySelector(".badge");
 const tbody = document.querySelector("tbody");
 const elementDelete = document.querySelector(".delete");
 const submit = document.querySelector(".submit");
-const input = document.querySelector(".input-text");
+const inputAddTask = document.querySelector(".input-addTask");
+const inputSearch = document.querySelector(".input-search");
 const select = document.querySelector(".select");
+const sortList = document.querySelectorAll(".dropdown-item");
+const showSortFeature = document.querySelector(".showSortFeature");
 let item = "";
-
+let idItem = 0;
 renderItems(todos);
 submit.dataset.isedit = "false";
 
@@ -76,36 +80,79 @@ document.addEventListener("click", (e) => {
     }
   }
 
-  // Event Edit -- Error
   if (ele.classList.contains("edit")) {
     // set isEdit= true for submit
     submit.dataset.isedit = "true";
+    idItem = ele.dataset.id;
     todos.forEach((obj) => {
-      if (obj.id === ele.dataset.id) {
+      if (obj.id === idItem) {
         // display data out form
-        input.value = obj.name;
+        inputAddTask.value = obj.name;
         select.value = obj.level;
-        submit.addEventListener("click", () => {
-          if (submit.dataset.isedit === "true") {
-            obj.name = input.value;
-            obj.level = select.value;
-            renderItems(todos);
-            // reset submit
-            submit.dataset.isedit = "false";
-          }
-        });
       }
     });
   }
 });
 
-// Add todo
+// Event Search
+inputSearch.addEventListener("keyup", () => {
+  const keys = inputSearch.value.toLowerCase();
+  if (keys === "") {
+    renderItems(todos);
+    return;
+  }
+  let itemList = "";
+  let newName = "";
+
+  for (let i = 0; i < todos.length; i++) {
+    const keyWords = new RegExp(keys, "gim");
+    const element = todos[i];
+    const haveKeyword = element.name.toLowerCase().includes(keys);
+    if (haveKeyword) {
+      newName = element.name.replace(keyWords, function (match) {
+        return "<mark>" + match + "</mark>";
+      });
+      itemList += `
+      <tr>
+        <th>${i + 1}</th>
+        <td>${newName}</td>
+        <td>
+        ${handleBadge(element.level)}
+          
+        </td>
+        <td>
+          <button class="btn btn-warning btn-sm edit"data-id="${
+            element.id
+          }" >Edit</button>
+          <button class="btn btn-danger btn-sm delete" data-id ="${
+            element.id
+          }">Delete</button>
+        </td>
+      </tr>
+    `;
+    }
+  }
+  tbody.innerHTML = itemList;
+});
+
+// Event Add Task
 submit.addEventListener("click", () => {
-  if (submit.dataset.isedit === "false") {
+  if (submit.dataset.isedit === "true") {
+    todos.forEach((obj) => {
+      if (obj.id === idItem) {
+        obj.name = inputAddTask.value;
+        obj.level = parseInt(select.value);
+      }
+    });
+    renderItems(todos);
+
+    // reset submit
+    submit.dataset.isedit = "false";
+  } else {
     const data = {};
     data.id = createId(12);
-    if (input.value !== "") {
-      data.name = input.value;
+    if (inputAddTask.value !== "") {
+      data.name = inputAddTask.value;
       data.level = parseInt(select.value);
       todos.unshift(data);
       renderItems(todos);
@@ -113,6 +160,18 @@ submit.addEventListener("click", () => {
       alert("Please Enter Value On Input");
     }
   }
+
+  // reset form
+  inputAddTask.value = "";
+  select.value = 1;
+});
+// Event Sort
+sortList.forEach((item) => {
+  item.addEventListener("click", () => {
+    showSortFeature.textContent = item.textContent.toUpperCase();
+    sortFeature(item.dataset.value);
+    console.log(item.dataset.value);
+  });
 });
 
 // FUNCTIONS
@@ -166,4 +225,66 @@ function createId(length) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
+}
+function sortFeature(value) {
+  if (value === "name-asc") {
+    todos.sort(function (a, b) {
+      const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+      const nameB = b.name.toUpperCase(); // ignore upper and lowercase
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      return 0;
+    });
+    renderItems(todos);
+  }
+  if (value === "name-desc") {
+    todos
+      .sort(function (a, b) {
+        const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+        const nameB = b.name.toUpperCase(); // ignore upper and lowercase
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        return 0;
+      })
+      .reverse();
+    renderItems(todos);
+  }
+  if (value === "level-asc") {
+    todos.sort(function (a, b) {
+      const levelA = a.level; // ignore upper and lowercase
+      const levelB = b.level; // ignore upper and lowercase
+      if (levelA < levelB) {
+        return -1;
+      }
+      if (levelA > levelB) {
+        return 1;
+      }
+      return 0;
+    });
+    renderItems(todos);
+  }
+  if (value === "level-desc") {
+    todos
+      .sort(function (a, b) {
+        const levelA = a.level; // ignore upper and lowercase
+        const levelB = b.level; // ignore upper and lowercase
+        if (levelA < levelB) {
+          return -1;
+        }
+        if (levelA > levelB) {
+          return 1;
+        }
+        return 0;
+      })
+      .reverse();
+    renderItems(todos);
+  }
 }
