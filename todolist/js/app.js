@@ -1,56 +1,3 @@
-let todos = [
-  {
-    id: "62914e5b-ef73-430f-a89e-3aeb115cba63",
-    name: "in tempus sit amet sem",
-    level: 2,
-  },
-  {
-    id: "8a623f0c-737e-49fc-8064-c76535071eb1",
-    name: "in est risus auctor",
-    level: 1,
-  },
-  {
-    id: "d7434df7-8601-4ce2-89f1-ab8004ad0645",
-    name: "hac habitasse platea dictumst etiam faucibus cursus urna ut tellus",
-    level: 2,
-  },
-  {
-    id: "13327097-a3f8-4a90-8ce0-2b8c045504fa",
-    name: "justo in hac habitasse",
-    level: 1,
-  },
-  {
-    id: "e1fe9172-3586-4f3a-86da-99457310d0b7",
-    name: "mi nulla ac enim",
-    level: 3,
-  },
-  {
-    id: "6da77e96-266f-4b21-b5b3-f347409fe4c9",
-    name: "a ipsum integer a nibh",
-    level: 1,
-  },
-  {
-    id: "c921f661-1aea-4878-ad0b-f9d7cf189ef5",
-    name: "eu felis fusce posuere felis sed lacus",
-    level: 3,
-  },
-  {
-    id: "9f5194ff-5dc2-4ae1-822e-b528fcd6aa95",
-    name: "molestie hendrerit at vulputate vitae nisl aenean lectus pellentesque",
-    level: 3,
-  },
-  {
-    id: "e1958e9d-eccd-46e4-9f24-fafae91d2b1c",
-    name: "morbi quis",
-    level: 3,
-  },
-  {
-    id: "27ccdf63-11c0-4e8f-a9b0-93d3c0350c33",
-    name: "sollicitudin vitae",
-    level: 1,
-  },
-];
-
 const badge = document.querySelector(".badge");
 const tbody = document.querySelector("tbody");
 const elementDelete = document.querySelector(".delete");
@@ -62,12 +9,11 @@ const sortList = document.querySelectorAll(".dropdown-item");
 const showSortFeature = document.querySelector(".showSortFeature");
 
 // idItem to compare with submit
-let idItem = 0;
+let idItem = '';
 
 // set data-isedit for input submit
-submit.dataset.isedit = "false";
 
-let configData = JSON.parse(localStorage.getItem("dataToDoList")) || todos;
+let configData = JSON.parse(localStorage.getItem("dataToDoList")) || [];
 renderItems(configData);
 
 // EVENTS
@@ -88,7 +34,6 @@ document.addEventListener("click", (e) => {
   // EDIT
   if (ele.classList.contains("edit")) {
     // set isEdit = true for submit
-    submit.dataset.isedit = "true";
 
     idItem = ele.dataset.id;
     configData.forEach((obj) => {
@@ -109,59 +54,45 @@ inputSearch.addEventListener("keyup", () => {
     saveDataAndDisplay();
     return;
   }
-  // reset form
-  let itemList = "";
-  let newName = "";
 
-  for (let i = 0; i < configData.length; i++) {
-    const keyWords = new RegExp(keys, "gim");
-    const element = configData[i];
-    const haveKeyword = element.name.toLowerCase().includes(keys);
-    if (haveKeyword) {
-      newName = element.name.replace(keyWords, function (match) {
-        return "<mark>" + match + "</mark>";
-      });
-      itemList += createItem(element, i, newName);
-    }
-  }
-  tbody.innerHTML = itemList;
+  let newTodos = configData.filter((todo) => {
+    return todo.name.toLowerCase().includes(keys);
+  });
+
+  renderItems(newTodos, keys);
 });
 
 // Event Add Task
 submit.addEventListener("click", () => {
   // check is edit or add
-  // if isedit = true is edit
-  if (submit.dataset.isedit === "true") {
-    configData.forEach((obj) => {
-      if (obj.id === idItem) {
-        if (inputAddTask.value !== "") {
-          obj.name = inputAddTask.value;
-          obj.level = parseInt(select.value);
-        } else {
-          alert("Input Value Can't Be Empty");
-        }
-      }
-    });
-    saveDataAndDisplay();
+  let taskName = inputAddTask.value.trim();
 
-    // reset submit
-    submit.dataset.isedit = "false";
-  } else {
-    const data = {};
-    data.id = createId(12);
-    if (inputAddTask.value !== "") {
-      data.name = inputAddTask.value;
-      data.level = parseInt(select.value);
-      configData.unshift(data);
-      saveDataAndDisplay();
-    } else {
-      alert("Please Enter Value On Input");
+  if (taskName) {
+    let taskLevel = parseInt(select.value);
+    let data = {
+      id: idItem ? idItem : createId(12),
+      name: taskName,
+      level: taskLevel
     }
+
+    if (idItem) {
+      let idx = configData.findIndex((element) => {
+        return element.id === idItem
+      });
+      configData[idx] = data;
+      idItem = '';
+    } else {
+      configData.unshift(data);
+    }
+    saveDataAndDisplay();
+    inputAddTask.value = "";
+    select.value = 1;
+  } else {
+    alert("Input Value Can't Be Empty");
   }
 
   // reset form
-  inputAddTask.value = "";
-  select.value = 1;
+
 });
 
 // Event Sort
@@ -190,12 +121,19 @@ function handleBadge(n) {
   return `<span class="badge ${bgcColor}">${badge}</span>`;
 }
 
-function renderItems(items) {
+function renderItems(items, keyword = '') {
   let item = "";
   items.forEach((obj, idx) => {
-    item += createItem(obj, idx, obj.name);
-    tbody.innerHTML = item;
+    let newName = obj.name;
+    if (keyword) {
+      const keyWords = new RegExp(keyword, "gim");
+      newName = obj.name.replace(keyWords, function (match) {
+        return "<mark>" + match + "</mark>";
+      });
+    }
+    item += createItem(obj, idx, newName);
   });
+  tbody.innerHTML = item;
 }
 
 function createId(length) {
@@ -210,65 +148,21 @@ function createId(length) {
 }
 
 function sortFeature(value) {
-  if (value === "name-asc") {
-    configData.sort(function (a, b) {
-      const nameA = a.name.toUpperCase(); // ignore upper and lowercase
-      const nameB = b.name.toUpperCase(); // ignore upper and lowercase
-      if (nameA < nameB) {
-        return -1;
-      }
-      if (nameA > nameB) {
-        return 1;
-      }
-      return 0;
-    });
-  }
+  let [sortBy, sortDir] = value.split('-');
 
-  if (value === "name-desc") {
-    configData
-      .sort(function (a, b) {
-        const nameA = a.name.toUpperCase(); // ignore upper and lowercase
-        const nameB = b.name.toUpperCase(); // ignore upper and lowercase
-        if (nameA < nameB) {
-          return -1;
-        }
-        if (nameA > nameB) {
-          return 1;
-        }
-        return 0;
-      })
-      .reverse();
-  }
+  configData.sort(function (a, b) {
+    const nameA = a[sortBy].toString().toUpperCase(); // ignore upper and lowercase
+    const nameB = b[sortBy].toString().toUpperCase(); // ignore upper and lowercase
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
+  });
 
-  if (value === "level-asc") {
-    configData.sort(function (a, b) {
-      const levelA = a.level; // ignore upper and lowercase
-      const levelB = b.level; // ignore upper and lowercase
-      if (levelA < levelB) {
-        return -1;
-      }
-      if (levelA > levelB) {
-        return 1;
-      }
-      return 0;
-    });
-  }
-
-  if (value === "level-desc") {
-    configData
-      .sort(function (a, b) {
-        const levelA = a.level; // ignore upper and lowercase
-        const levelB = b.level; // ignore upper and lowercase
-        if (levelA < levelB) {
-          return -1;
-        }
-        if (levelA > levelB) {
-          return 1;
-        }
-        return 0;
-      })
-      .reverse();
-  }
+  if (sortDir === 'desc') configData.reverse();
   saveDataAndDisplay();
 }
 
@@ -287,12 +181,10 @@ function createItem(obj, idx, name) {
       
     </td>
     <td>
-      <button class="btn btn-warning btn-sm edit"data-id="${
-        obj.id
-      }" >Edit</button>
-      <button class="btn btn-danger btn-sm delete" data-id ="${
-        obj.id
-      }">Delete</button>
+      <button class="btn btn-warning btn-sm edit"data-id="${obj.id
+    }" >Edit</button>
+      <button class="btn btn-danger btn-sm delete" data-id ="${obj.id
+    }">Delete</button>
     </td>
   </tr>
 `;
