@@ -14,20 +14,6 @@ const recommend = document.querySelector(".recommend");
 const start = document.querySelector(".start");
 const turnList = document.querySelectorAll(".turn");
 
-
-const boxSize = document.querySelector('.table li').offsetWidth;
-document.querySelectorAll('.table li').forEach(box => {
-  box.style.height = boxSize + 'px';
-})
-
-window.addEventListener('resize', function () {
-  const boxSize = document.querySelector('.table li').offsetWidth;
-  document.querySelectorAll('.table li').forEach(box => {
-    box.style.height = boxSize + 'px';
-  })
-});
-
-
 // EVENT
 document.addEventListener("click", function (e) {
   let ele = e.target;
@@ -54,7 +40,6 @@ document.addEventListener("click", function (e) {
 });
 
 start.addEventListener("click", function startClick() {
-  console.log(123);
   getClassStatus("add", "pointer");
 });
 
@@ -77,4 +62,23 @@ function getClassStatus(action, cursorStyle) {
     number[i].style.cursor = cursorStyle;
   }
 }
+function renderNumber(length) {
+  let str = "";
+  for (let i = 1; i <= length; i++) {
+    str += `<li class="number">${i}</li>`;
+  }
+  numberList.innerHTML = str;
+  const boxSize = document.querySelector(".table li").offsetWidth;
+  document.querySelectorAll(".table li").forEach((box) => {
+    box.style.height = boxSize + "px";
+  });
+
+  window.addEventListener("resize", function () {
+    const boxSize = document.querySelector(".table li").offsetWidth;
+    document.querySelectorAll(".table li").forEach((box) => {
+      box.style.height = boxSize + "px";
+    });
+  });
+}
+renderNumber(LENGTH);
 console.log(x);
