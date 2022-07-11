@@ -41,33 +41,43 @@ $(function () {
     }
   });
   // DELETE AND EDIT
-  $(document).click(function (e) {
-    ele = e.target;
-    let isDelete = $(ele).hasClass("delete");
-    let isEdit = $(ele).hasClass("edit");
-
-    if (isDelete) {
-      if (confirm("are you sure?")) {
-        let id = $(ele).data("id");
-        configData = configData.filter(function (obj) {
-          return obj.id !== id;
-        });
-        saveDataAndDisplay();
-      }
+  $(document).on('click', '.delete', function () {
+    if (confirm("are you sure?")) {
+      let id = $(this).data("id");
+      configData = configData.filter(function (obj) {
+        return obj.id !== id;
+      });
+      saveDataAndDisplay();
     }
+  })
 
-    if (isEdit) {
-      idItem = $(ele).data("id");
-      for (let i = 0; i < configData.length; i++) {
-        const obj = configData[i];
-        if (obj.id === idItem) {
-          inputAddTask.val(obj.name);
-          select.val(obj.level);
-          return;
-        }
-      }
-    }
-  });
+  // $(document).click(function (e) {
+  //   ele = e.target;
+  //   let isDelete = $(ele).hasClass("delete");
+  //   let isEdit = $(ele).hasClass("edit");
+
+  //   if (isDelete) {
+  //     if (confirm("are you sure?")) {
+  //       let id = $(ele).data("id");
+  //       configData = configData.filter(function (obj) {
+  //         return obj.id !== id;
+  //       });
+  //       saveDataAndDisplay();
+  //     }
+  //   }
+
+  //   if (isEdit) {
+  //     idItem = $(ele).data("id");
+  //     for (let i = 0; i < configData.length; i++) {
+  //       const obj = configData[i];
+  //       if (obj.id === idItem) {
+  //         inputAddTask.val(obj.name);
+  //         select.val(obj.level);
+  //         return;
+  //       }
+  //     }
+  //   }
+  // });
 
   // Search
   inputSearch.keyup(function (e) {
@@ -132,12 +142,10 @@ $(function () {
         
       </td>
       <td>
-        <button class="btn btn-warning btn-sm edit"data-id="${
-          obj.id
-        }" >Edit</button>
-        <button class="btn btn-danger btn-sm delete" data-id ="${
-          obj.id
-        }">Delete</button>
+        <button class="btn btn-warning btn-sm edit"data-id="${obj.id
+      }" >Edit</button>
+        <button class="btn btn-danger btn-sm delete" data-id ="${obj.id
+      }">Delete</button>
       </td>
     </tr>
   `;

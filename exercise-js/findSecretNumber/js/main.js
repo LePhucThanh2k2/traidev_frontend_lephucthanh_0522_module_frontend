@@ -13,6 +13,21 @@ const reset = document.querySelector(".reset");
 const recommend = document.querySelector(".recommend");
 const start = document.querySelector(".start");
 const turnList = document.querySelectorAll(".turn");
+
+
+const boxSize = document.querySelector('.table li').offsetWidth;
+document.querySelectorAll('.table li').forEach(box => {
+  box.style.height = boxSize + 'px';
+})
+
+window.addEventListener('resize', function () {
+  const boxSize = document.querySelector('.table li').offsetWidth;
+  document.querySelectorAll('.table li').forEach(box => {
+    box.style.height = boxSize + 'px';
+  })
+});
+
+
 // EVENT
 document.addEventListener("click", function (e) {
   let ele = e.target;
@@ -28,16 +43,18 @@ document.addEventListener("click", function (e) {
       getClassStatus("remove", "auto");
       turnList[index - 1].classList.add("true");
     } else if (x < n) {
-      alert += renderAlert(n, "<");
+      alert += renderAlert(n, ">");
       turnList[index - 1].classList.add("false");
     } else {
-      alert += renderAlert(n, ">");
+      alert += renderAlert(n, "<");
       turnList[index - 1].classList.add("false");
     }
     textArea.innerHTML = alert;
   }
 });
+
 start.addEventListener("click", function startClick() {
+  console.log(123);
   getClassStatus("add", "pointer");
 });
 

@@ -68,18 +68,22 @@ h1:after {
 .table {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
+  /* gap: 5px; */
 }
 .table li {
   color: #333;
   font-size: 25px;
   border: 2px aqua solid;
-  width: 100px;
-  height: 100px;
-  text-align: center;
-  line-height: 100px;
+  width: 20%;
+  /* height: 100px; */
+  /* text-align: center; */
+  /* line-height: 100px; */
   cursor: auto;
   color: #fff;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .content-secondary {
   background-color: rgba(255, 255, 255, 0.492);
