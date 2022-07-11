@@ -44,6 +44,14 @@ start.addEventListener("click", function startClick() {
   getClassStatus("add", "pointer");
 });
 
+reset.addEventListener("click", function resetClick() {
+  x = random(LENGTH);
+  renderNumber(LENGTH);
+  getClassStatus("add", "pointer");
+  alert = "";
+  textArea.innerHTML = alert;
+  index = 0;
+});
 // FUNCTION
 function random(n) {
   return Math.trunc(Math.random() * n) + 1;
@@ -91,5 +99,6 @@ function renderNumber(length) {
     strTurn += `<li class="turn"></li>`;
   }
   level.innerHTML = strTurn;
+  textArea.innerHTML = "";
 }
 renderNumber(LENGTH);
