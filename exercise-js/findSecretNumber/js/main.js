@@ -1,9 +1,10 @@
 const LENGTH = 20;
 const COLUMN = 4;
-const width = 100 / COLUMN;
 const TURN = 5;
 let index = 0;
 let alert = "";
+let start = 0;
+let end = 0;
 let x = random(LENGTH);
 const STATUS_PLAYING = "playing";
 const STATUS_ENDED = "ended";
@@ -12,7 +13,7 @@ const numberList = document.querySelector(".table");
 const textArea = document.querySelector(".textArea");
 const reset = document.querySelector(".reset");
 const recommend = document.querySelector(".recommend");
-const start = document.querySelector(".start");
+const play = document.querySelector(".start");
 const level = document.querySelector(".level");
 // EVENT
 document.addEventListener("click", function (e) {
@@ -32,26 +33,43 @@ document.addEventListener("click", function (e) {
     } else if (x < n) {
       alert += renderAlert(n, ">");
       turnList[index - 1].classList.add("false");
+      start = ele.textContent > start ? ele.textContent : start;
     } else {
       alert += renderAlert(n, "<");
       turnList[index - 1].classList.add("false");
+      end = ele.textContent > end ? ele.textContent : end;
     }
     textArea.innerHTML = alert;
   }
 });
 
-start.addEventListener("click", function startClick() {
+play.addEventListener("click", function startClick() {
   getClassStatus("add", "pointer");
 });
 
 reset.addEventListener("click", function resetClick() {
   x = random(LENGTH);
+  index = 0;
   renderNumber(LENGTH);
   getClassStatus("add", "pointer");
   alert = "";
   textArea.innerHTML = alert;
-  index = 0;
 });
+recommend.addEventListener("click", function resetClick() {
+  const number = document.querySelectorAll(".number");
+  for (let i = 0; i < LENGTH; i++) {
+    const n = number[i].textContent;
+    if (n <= start) {
+      console.log(start);
+      number[i].classList.add("start");
+    }
+    if (n >= end) {
+      console.log(end);
+      number[i].classList.add("end");
+    }
+  }
+});
+
 // FUNCTION
 function random(n) {
   return Math.trunc(Math.random() * n) + 1;
