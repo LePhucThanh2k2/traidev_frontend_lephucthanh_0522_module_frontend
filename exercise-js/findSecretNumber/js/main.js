@@ -1,5 +1,7 @@
-const LENGTH = 25;
-const TURN = 3;
+const LENGTH = 20;
+const COLUMN = 4;
+const width = 100 / COLUMN;
+const TURN = 5;
 let index = 0;
 let alert = "";
 let x = random(LENGTH);
@@ -7,22 +9,21 @@ const STATUS_PLAYING = "playing";
 const STATUS_ENDED = "ended";
 const result = document.querySelector(".result");
 const numberList = document.querySelector(".table");
-const number = document.querySelectorAll(".number");
 const textArea = document.querySelector(".textArea");
 const reset = document.querySelector(".reset");
 const recommend = document.querySelector(".recommend");
 const start = document.querySelector(".start");
-const turnList = document.querySelectorAll(".turn");
-
+const level = document.querySelector(".level");
 // EVENT
 document.addEventListener("click", function (e) {
+  const turnList = document.querySelectorAll(".turn");
+
   let ele = e.target;
   if (ele.classList.contains("number") && ele.classList.contains("playing")) {
     let n = parseInt(ele.textContent);
     index++;
     if (index === TURN) {
       getClassStatus("remove", "auto");
-      console.log("a");
     }
     if (x === n) {
       alert += ` <p class="true">Bạn đã thắng</p>`;
@@ -52,6 +53,7 @@ function renderAlert(n, str) {
   </p>`;
 }
 function getClassStatus(action, cursorStyle) {
+  const number = document.querySelectorAll(".number");
   for (let i = 0; i < number.length; i++) {
     if (action === "remove") {
       number[i].classList.remove("playing");
@@ -68,9 +70,13 @@ function renderNumber(length) {
     str += `<li class="number">${i}</li>`;
   }
   numberList.innerHTML = str;
-  const boxSize = document.querySelector(".table li").offsetWidth;
+
   document.querySelectorAll(".table li").forEach((box) => {
-    box.style.height = boxSize + "px";
+    box.style.width = 100 / COLUMN + "%";
+    const boxSize = document.querySelector(".table li").offsetWidth;
+    document.querySelectorAll(".table li").forEach((box) => {
+      box.style.height = boxSize + "px";
+    });
   });
 
   window.addEventListener("resize", function () {
@@ -79,6 +85,11 @@ function renderNumber(length) {
       box.style.height = boxSize + "px";
     });
   });
+
+  let strTurn = "";
+  for (let i = 0; i < TURN; i++) {
+    strTurn += `<li class="turn"></li>`;
+  }
+  level.innerHTML = strTurn;
 }
 renderNumber(LENGTH);
-console.log(x);
