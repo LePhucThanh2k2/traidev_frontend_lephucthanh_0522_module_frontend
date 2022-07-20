@@ -60,11 +60,9 @@ recommend.addEventListener("click", function resetClick() {
   for (let i = 0; i < LENGTH; i++) {
     const n = number[i].textContent;
     if (n <= start) {
-      console.log(start);
       number[i].classList.add("start");
     }
     if (n >= end) {
-      console.log(end);
       number[i].classList.add("end");
     }
   }
