@@ -119,6 +119,12 @@ body {
   font-size: 2rem;
   cursor: pointer;
 }
+.menu-mobile {
+  position: relative;
+}
+.icon-menu-mobile {
+  display: none;
+}
 .header-menu-link {
   text-transform: uppercase;
   display: inline-block;
@@ -134,10 +140,101 @@ body {
   align-items: baseline;
 }
 .header-menu {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
+.checkbox-menu {
+  display: none;
+}
+@media screen and (max-width: 768px) {
+  .icon-menu-mobile {
+    display: block;
+    font-size: 24px;
+    margin-right: 5rem;
+  }
+  .header-menu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 3rem;
+    right: 0;
+    background-color: var(--third-color);
+    width: 30rem;
+    opacity: 0;
+    padding: 5rem;
+    visibility: hidden;
+    transition: all 0.25s linear;
+    z-index: 5;
+  }
+  .header-menu > .header-menu-item:not(:first-child) {
+    margin-left: 0;
+    margin-top: 3rem;
+  }
+  .checkbox-menu:checked ~ .header-menu {
+    opacity: 1;
+    visibility: visible;
+  }
+  .header-content .header-content-main {
+    font-size: 10rem;
+  }
+  .header-content ~ .header-bottom {
+    display: none;
+  }
+  .service .service-item {
+    width: 50%;
+  }
+  .service .service-item:nth-child(-n + 4) {
+    border-bottom: 1px solid var(--gray-dark-color);
+  }
+  .device .desktop {
+    display: none;
+  }
+  .device .device-image.mobile {
+    left: 50%;
+    transform: translate(-50%, 20%);
+  }
+  .wedo .wedo-image {
+    display: none;
+  }
+  .wedo .wedo-content {
+    width: 100%;
+  }
+  .quote .quote-item {
+    flex-direction: column;
+    padding: 3rem 5rem;
+  }
+  .quote .quote-icon {
+    margin-bottom: 3rem;
+  }
+  .quote .quote-info {
+    width: 100%;
+  }
+  .quote1 .quote-item {
+    flex-direction: column;
+    padding: 3rem 5rem;
+  }
+  .quote1 .quote-image {
+    margin-bottom: 3rem;
+  }
+  .quote1 .quote-info {
+    width: 100%;
+  }
+  .people .people-item {
+    width: 100%;
+  }
+  .footer .footer-top {
+    flex-direction: column;
+  }
+  .footer .footer-top > .footer-column {
+    width: 100%;
+  }
+  .footer-column .footer-heading {
+    margin-top: 5rem;
+    font-size: 4.6rem;
+    font-weight: 600;
+    color: var(--gray-dark-color);
+  }
+}
+
 .header-content {
   padding-top: 17rem;
   text-align: center;
@@ -333,9 +430,12 @@ body {
   padding: 8.5rem 3.5rem;
   color: var(--white-color);
   border-left: 1px solid var(--white-color);
-  text-align: center;
   text-transform: uppercase;
   width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 .number-item:last-child {
   border-right: 1px solid var(--white-color);
