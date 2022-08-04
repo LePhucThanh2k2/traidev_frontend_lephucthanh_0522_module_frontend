@@ -20,7 +20,6 @@ $(document).ready(function () {
     */
   renderItems(page);
   renderPagination(firstIdx, lastIdx);
-  renderPageCurrent(lastIdx);
 
   // EVENT
   $(document).on("click", ".btn-prev", function () {
@@ -34,7 +33,6 @@ $(document).ready(function () {
     page -= 1;
     renderPagination(firstIdx, lastIdx);
     renderItems(page);
-    renderPageCurrent(lastIdx);
   });
 
   $(document).on("click", ".btn-next", function () {
@@ -45,32 +43,24 @@ $(document).ready(function () {
       lastIdx += 1;
     }
 
+    console.log('lastIdx', lastIdx);
+    console.log('i', i);
+
     page += 1;
     renderPagination(firstIdx, lastIdx);
     renderItems(page);
-    renderPageCurrent(lastIdx);
     if (i === TOTAL_PAGINATION) {
       $(".btn-next").addClass("disabled");
     }
   });
 
   //   Function
-  function renderPageCurrent(lastIdx) {
-    const listPage = document.querySelectorAll(".page");
-    if (lastIdx === lastPage) {
-      listPage[i].classList.add("active");
-    } else {
-      listPage[0].classList.add("active");
-    }
-    if (firstIdx === 1) {
-      $(".btn-prev").addClass("disabled");
-    }
-  }
 
   function renderPagination(firstIdx, lastIdx) {
     let str = "";
     for (let i = firstIdx; i <= lastIdx; i++) {
-      str += ` <li class="page-item page" data-id ="${i}" ><a class="page-link" href="#">${i}</a></li>
+      const classActive = i === page ? 'active' : '';
+      str += ` <li class="page-item page ${classActive}" data-id ="${i}" ><a class="page-link" href="#">${i}</a></li>
        `;
     }
     $(".pagination").html(
