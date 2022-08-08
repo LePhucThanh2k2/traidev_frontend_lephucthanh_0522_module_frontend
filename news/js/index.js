@@ -7,24 +7,48 @@ const categoryMainNews = document.querySelectorAll(".main-news .category");
 const dateMainNews = document.querySelectorAll(".main-news .date");
 const titleMainNews = document.querySelectorAll(".main-news .title");
 // Featured news
-const categoryFeaturedNews = document.querySelectorAll(".feature-news .category");
+const categoryFeaturedNews = document.querySelectorAll(
+  ".feature-news .category"
+);
 const dateFeaturedNews = document.querySelectorAll(".feature-news .date");
 const titleFeaturedNews = document.querySelectorAll(".feature-news .title");
 // Latest news primary
-const categoryLatestNewsPrimary = document.querySelectorAll(".latest-news-primary .category");
-const dateLatestNewsPrimary = document.querySelectorAll(".latest-news-primary .date");
-const titleLatestNewsPrimary = document.querySelectorAll(".latest-news-primary .title");
-const descLatestNewsPrimary = document.querySelectorAll(".latest-news-primary .desc");
+const categoryLatestNewsPrimary = document.querySelectorAll(
+  ".latest-news-primary .category"
+);
+const dateLatestNewsPrimary = document.querySelectorAll(
+  ".latest-news-primary .date"
+);
+const titleLatestNewsPrimary = document.querySelectorAll(
+  ".latest-news-primary .title"
+);
+const descLatestNewsPrimary = document.querySelectorAll(
+  ".latest-news-primary .desc"
+);
 // Latest news secondary
-const categoryLatestNewsSecondary = document.querySelectorAll(".latest-news-secondary .category");
-const dateLatestNewsSecondary = document.querySelectorAll(".latest-news-secondary .date");
-const titleLatestNewsSecondary = document.querySelectorAll(".latest-news-secondary .title");
+const categoryLatestNewsSecondary = document.querySelectorAll(
+  ".latest-news-secondary .category"
+);
+const dateLatestNewsSecondary = document.querySelectorAll(
+  ".latest-news-secondary .date"
+);
+const titleLatestNewsSecondary = document.querySelectorAll(
+  ".latest-news-secondary .title"
+);
 // Latest news third
-const categoryLatestNewsThird = document.querySelectorAll(".latest-news-third .category");
-const dateLatestNewsThird = document.querySelectorAll(".latest-news-third .date");
-const titleLatestNewsThird = document.querySelectorAll(".latest-news-third .title");
+const categoryLatestNewsThird = document.querySelectorAll(
+  ".latest-news-third .category"
+);
+const dateLatestNewsThird = document.querySelectorAll(
+  ".latest-news-third .date"
+);
+const titleLatestNewsThird = document.querySelectorAll(
+  ".latest-news-third .title"
+);
 // trending news
-const categoryTrendingThird = document.querySelectorAll(".trending-news .category");
+const categoryTrendingThird = document.querySelectorAll(
+  ".trending-news .category"
+);
 const dateTrendingThird = document.querySelectorAll(".trending-news .date");
 const titleTrendingThird = document.querySelectorAll(".trending-news .title");
 // Tags
@@ -36,18 +60,19 @@ const categoryPopular = document.querySelectorAll(".popular .category");
 const datePopular = document.querySelectorAll(".popular .date");
 const titlePopular = document.querySelectorAll(".popular .title");
 
-const eleMenu = document.getElementById('menu');
-
+const eleMenu = document.getElementById("menu");
+const eleTopMenuLeft = document.querySelector(".main-carousel");
+const eleTopMenuRight = document.querySelector(".row.mx-0");
 renderMenu();
 renderTopNews();
 
 // ------------------------------------
 // RENDER FUNCTION
 function renderMenu() {
-  getCategoriesNews().then(res => {
+  getCategoriesNews().then((res) => {
     const data = res.data;
-    let htmlMenuItems = '';
-    let htmlMenuItemsOther = '';
+    let htmlMenuItems = "";
+    let htmlMenuItemsOther = "";
     data.forEach((item, index) => {
       const link = `category.html?id=${item.id}`;
       const name = item.name;
@@ -70,32 +95,35 @@ function renderMenu() {
 }
 
 function renderTopNews() {
-  getArticlesTop(7).then(res => {
+  getArticlesTop(7).then((res) => {
     const data = res.data;
-    console.log(data);
-    let html = '';
-    data.forEach(item => {
-      html += renderTopNewsItem(item);
+    let htmlTopMenuLeft = "";
+    let htmlTopMenuRight = "";
+    data.forEach((item, idx) => {
+      if (idx <= 2) {
+        htmlTopMenuLeft += renderTopNewsItem(item, 500, idx);
+      } else {
+        htmlTopMenuRight += renderTopNewsItem(item, 250, idx, "w-100");
+      }
     });
-  })
+    eleTopMenuLeft.innerHTML = htmlTopMenuLeft;
+    eleTopMenuRight.innerHTML = htmlTopMenuRight;
+  });
 }
 
-function renderTopNewsItem(data) {
+function renderTopNewsItem(data, height = 200, classAttrImg = "") {
   return `
-  <div class="position-relative overflow-hidden main-news" style="height: 250px;">
-    <img class="img-fluid w-100 h-100" src="img/news-700x435-1.jpg" style="object-fit: cover;">
+  <div class="position-relative overflow-hidden main-news" style="height: ${height}px;">
+    <img class="img-fluid ${classAttrImg} h-100" src="img/news-700x435-1.jpg" style="object-fit: cover;">
     <div class="overlay">
       <div class="mb-2 ">
-        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2 category" href="">Business</a>
-        <a class="text-white " href=""><small class="date">Jan 01, 2045</small></a>
+        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2 category" href="">${data.category.name}</a>
+        <a class="text-white " href=""><small class="date">${data.publish_date}</small></a>
       </div>
-      <a class="h6 m-0 text-white text-uppercase font-weight-semi-bold title" href="">Lorem
-        ipsum
-        dolor sit amet elit...</a>
+      <a class="h6 m-0 text-white text-uppercase font-weight-semi-bold title" href="">${data.title}</a>
     </div>
   </div>`;
 }
-
 
 // ASYNC FUNCTION
 async function getCategoriesNews(offset = 0, limit = 15) {
