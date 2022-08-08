@@ -61,8 +61,8 @@ const datePopular = document.querySelectorAll(".popular .date");
 const titlePopular = document.querySelectorAll(".popular .title");
 
 const eleMenu = document.getElementById("menu");
-const eleTopMenuLeft = document.querySelector(".main-carousel");
-const eleTopMenuRight = document.querySelector(".row.mx-0");
+const eleTopMenuLeft = document.querySelector("#top-news-left");
+const eleTopMenuRight = document.querySelector("#top-news-right");
 renderMenu();
 renderTopNews();
 
@@ -101,26 +101,34 @@ function renderTopNews() {
     let htmlTopMenuRight = "";
     data.forEach((item, idx) => {
       if (idx <= 2) {
-        htmlTopMenuLeft += renderTopNewsItem(item, 500, idx);
+        htmlTopMenuLeft += renderTopNewsItem(item, 500);
       } else {
-        htmlTopMenuRight += renderTopNewsItem(item, 250, idx, "w-100");
+        htmlTopMenuRight += `<div class="col-md-6 px-0"> ${renderTopNewsItem(item, 250, "w-100")} </div>`;
       }
     });
     eleTopMenuLeft.innerHTML = htmlTopMenuLeft;
     eleTopMenuRight.innerHTML = htmlTopMenuRight;
+    $(".main-carousel").owlCarousel({
+      autoplay: true,
+      smartSpeed: 1500,
+      items: 1,
+      dots: true,
+      loop: true,
+      center: true,
+    });
   });
 }
 
 function renderTopNewsItem(data, height = 200, classAttrImg = "") {
   return `
   <div class="position-relative overflow-hidden main-news" style="height: ${height}px;">
-    <img class="img-fluid ${classAttrImg} h-100" src="img/news-700x435-1.jpg" style="object-fit: cover;">
+    <img class="img-fluid ${classAttrImg} h-100" src="${data.thumb}" style="object-fit: cover;">
     <div class="overlay">
       <div class="mb-2 ">
-        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2 category" href="">${data.category.name}</a>
-        <a class="text-white " href=""><small class="date">${data.publish_date}</small></a>
+        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2 category" href="category.html?id=${data.category_id}">${data.category.name}</a>
+        <a class="text-white" href="#"><small class="date">${data.publish_date}</small></a>
       </div>
-      <a class="h6 m-0 text-white text-uppercase font-weight-semi-bold title" href="">${data.title}</a>
+      <a class="h6 m-0 text-white text-uppercase font-weight-semi-bold title" href="single.html?id=${data.id}">${data.title}</a>
     </div>
   </div>`;
 }

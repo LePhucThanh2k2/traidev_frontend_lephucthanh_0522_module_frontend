@@ -34,14 +34,14 @@
   });
 
   // Main News carousel
-  $(".main-carousel").owlCarousel({
-    autoplay: true,
-    smartSpeed: 1500,
-    items: 1,
-    dots: true,
-    loop: true,
-    center: true,
-  });
+  // $(".main-carousel").owlCarousel({
+  //   autoplay: true,
+  //   smartSpeed: 1500,
+  //   items: 1,
+  //   dots: true,
+  //   loop: true,
+  //   center: true,
+  // });
 
   // Tranding carousel
   $(".tranding-carousel").owlCarousel({
