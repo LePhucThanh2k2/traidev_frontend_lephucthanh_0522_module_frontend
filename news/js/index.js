@@ -7,12 +7,47 @@ const eleTopMenuLeft = document.querySelector("#top-news-left");
 const eleTopMenuRight = document.querySelector("#top-news-right");
 const eleFeatureNews = document.getElementById("feature-news");
 const eleLatestNews = document.getElementById("latest-news");
+const eleTrendingNews = document.getElementById("trending-news");
+const eleTags = document.querySelector(".tags");
+const elePopularNews = document.querySelector("#popular");
+const eleCategories = document.querySelector(".footer-categories");
+const eleLoadMore = document.getElementById("append-latest-news");
+const eleSearch = document.getElementById("input-search");
+const eleBtnSearch = document.getElementById("btn-search");
+const eleLinkSearch = document.getElementById("link-search");
+// --------------------EVENT-------------------------
+eleLoadMore.addEventListener("click", () => {
+  renderLatestNews(0, 18);
+  eleLoadMore.style.display = "none";
+});
+
+eleBtnSearch.addEventListener("click", () => {
+  handleSearch();
+});
+eleSearch.addEventListener("keypress", function (event) {
+  // If the user presses the "Enter" key on the keyboard
+  if (event.key === "Enter") {
+    // Trigger the button element with a click
+    eleBtnSearch.click();
+  }
+});
+
+// -------------------------------------------------
 renderMenu();
 renderTopNews();
 renderFeatureNews();
-renderLatestNews();
+renderLatestNews(0, 12);
+renderTrendingNews();
+renderTags();
+renderPopularNews();
 // ------------------------------------
+
 // RENDER FUNCTION
+function handleSearch() {
+  const keyword = eleSearch.value;
+  const link = `search.html?keyword=${keyword}`;
+  eleLinkSearch.href = `${link}`;
+}
 function renderMenu() {
   getCategoriesNews().then((res) => {
     const data = res.data;
@@ -67,6 +102,7 @@ function renderTopNews() {
     });
   });
 }
+
 function renderFeatureNews() {
   getArticlesTop(7).then((res) => {
     const data = res.data;
@@ -106,17 +142,23 @@ function renderFeatureNews() {
     });
   });
 }
-function renderLatestNews() {
-  getArticles().then((res) => {
+
+function renderLatestNews(offset, limit) {
+  getArticles(offset, limit).then((res) => {
     const data = res.data;
     let htmlPrimary = "";
     let htmlSecondary = "";
     let htmlThird = "";
     data.forEach((item, idx) => {
       if (idx <= 1) {
-        htmlPrimary += `<div class="col-lg-6">${renderLatestNewsPrimaryItem(item)}</div>`;
+        htmlPrimary += `<div class="col-lg-6">${renderLatestNewsPrimaryItem(
+          item
+        )}</div>`;
       } else if (idx <= 3) {
-        htmlSecondary += `<div class="col-lg-6">${renderLatestNewsPrimaryItem(item, false)}</div>`;
+        htmlSecondary += `<div class="col-lg-6">${renderLatestNewsPrimaryItem(
+          item,
+          false
+        )}</div>`;
       } else {
         htmlThird += renderLatestNewsThirdItem(item);
       }
@@ -132,16 +174,91 @@ function renderLatestNews() {
   });
 }
 
+function renderTrendingNews() {
+  getArticlesTop(4).then((res) => {
+    const data = res.data;
+    let htmlTrendingNews = "";
+    data.forEach((item) => {
+      htmlTrendingNews += renderTrendingNewsItem(item);
+    });
+    eleTrendingNews.innerHTML = htmlTrendingNews;
+  });
+}
+function renderTags() {
+  getCategoriesNews().then((res) => {
+    let htmlTag = "";
+    let htmlCategories = "";
+    const data = res.data;
+    data.forEach((item) => {
+      htmlTag += ` <a href="" class="btn btn-sm btn-outline-secondary m-1">${item.name}</a>`;
+      htmlCategories += ` <a href="" class="btn btn-sm btn-secondary m-1">${item.name}</a>`;
+    });
+    eleTags.innerHTML = htmlTag;
+    eleCategories.innerHTML = htmlCategories;
+  });
+}
+function renderPopularNews() {
+  getArticlesTop(3).then((res) => {
+    const data = res.data;
+    let htmlPopular = "";
+    data.forEach((item) => {
+      htmlPopular += renderPopularItem(item);
+    });
+    elePopularNews.innerHTML = `
+    <h5 class="mb-4 text-white text-uppercase font-weight-bold">Popular News</h5>
+    ${htmlPopular}
+    `;
+  });
+}
+function renderDate(date) {
+  // years, months, weeks, days, hours, minutes, seconds
+  const dateApi = date;
+  const dateCurrent = moment().format("YYYY-MM-DD hh:mm:ss");
+  const a = moment(dateApi);
+  const b = moment(dateCurrent);
+  const seconds = b.diff(a, "seconds");
+  let result = "";
+  if (seconds <= 60) {
+    result = result + " giây trước";
+  }
+  if (seconds > 60) {
+    result = b.diff(a, "minutes") + " phút trước";
+  }
+  if (seconds > 3600) {
+    result = b.diff(a, "hours") + " giờ trước";
+  }
+  if (seconds > 86400) {
+    result = b.diff(a, "days") + " ngày trước";
+  }
+  if (seconds > 604800) {
+    result = b.diff(a, "weeks") + " tuần trước";
+  }
+  if (seconds > 2419200) {
+    result = b.diff(a, "months") + " tháng trước";
+  }
+  if (seconds > 29030400) {
+    result = b.diff(a, "years") + " năm trước";
+  }
+  return result;
+}
+// RENDER ITEMS
 function renderTopNewsItem(data, height = 200, classAttrImg = "") {
   return `
   <div class="position-relative overflow-hidden main-news" style="height: ${height}px;">
-    <img class="img-fluid ${classAttrImg} h-100" src="${data.thumb}" style="object-fit: cover;">
+    <img class="img-fluid ${classAttrImg} h-100" src="${
+    data.thumb
+  }" style="object-fit: cover;">
     <div class="overlay">
       <div class="mb-2 ">
-        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2 category" href="category.html?id=${data.category_id}">${data.category.name}</a>
-        <a class="text-white" href="#"><small class="date">${data.publish_date}</small></a>
+        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2 category" href="category.html?id=${
+          data.category_id
+        }">${data.category.name}</a>
+        <a class="text-white" href="#">
+        <small class="date">${renderDate(data.publish_date)}</small></a>
       </div>
-      <a class="h6 m-0 text-white text-uppercase font-weight-semi-bold title" href="single.html?id=${data.id}">${data.title}</a>
+      <a class="h6 m-0 text-white text-uppercase font-weight-semi-bold title" href="single.html?id=${
+        data.id
+      }">${data.title}</a>
     </div>
   </div>`;
 }
@@ -154,25 +271,35 @@ function renderFeatureNewsItem(data) {
        <div class="mb-2">
            <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2 category"
                href="">${data.category.name}</a>
-           <a class="text-white" href=""><small class="date">${data.publish_date}</small></a>
+           <a class="text-white" href=""><small class="date">${renderDate(
+             data.publish_date
+           )}</small></a>
        </div>
-       <a class="h6 m-0 text-white text-uppercase font-weight-semi-bold title" href="">${data.title}</a>
+       <a class="h6 m-0 text-white text-uppercase font-weight-semi-bold title" href="">${
+         data.title
+       }</a>
    </div>
 </div>`;
 }
 
 function renderLatestNewsPrimaryItem(data, isShowDesc = true) {
-  const desc = isShowDesc ? `<p class="m-0 desc">${data.description}</p>` : '';
-  return /* html */`
+  const desc = isShowDesc
+    ? `<p class="m-0 desc" id="desc">${data.description}</p>`
+    : "";
+  return /* html */ `
     <div class="position-relative mb-3">
-      <img class="img-fluid w-100" src="${data.thumb}" style="object-fit: cover;">
+      <img class="img-fluid w-100" src="${
+        data.thumb
+      }" style="object-fit: cover;">
       <div class="bg-white border border-top-0 p-4">
         <div class="mb-2">
           <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2 category"
               href="">${data.category.name}</a>
-          <a class="text-body" href=""><small class="date">${data.updated_at}</small></a>
+          <a class="text-body" href=""><small class="date">${renderDate(
+            data.publish_date
+          )}</small></a>
         </div>
-        <a class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold title"
+        <a class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold title"id="title"
             href="">${data.title}</a>
         ${desc}
       </div>
@@ -194,17 +321,56 @@ function renderLatestNewsThirdItem(data) {
   return `
   <div class="col-lg-6 latest-news-third">
     <div class="d-flex align-items-center bg-white mb-3" style="height: 110px;">
-      <img class="img-fluid" src="img/news-110x110-1.jpg" alt="">
+      <img class="img-fluid img-latestNews-third" src="${data.thumb}" alt="">
       <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
         <div class="mb-2">
           <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2 category"
               href="">${data.category.name}</a>
-          <a class="text-body" href=""><small class="date">${data.updated_at}</small></a>
+          <a class="text-body" href=""><small class="date">${renderDate(
+            data.publish_date
+          )}</small></a>
         </div>
-        <a class="h6 m-0 text-secondary text-uppercase font-weight-bold title" href="">${data.title}</a>
+        <a class="h6 m-0 text-secondary text-uppercase font-weight-bold title" href="">${
+          data.title
+        }</a>
       </div>
     </div>
   </div>`;
+}
+function renderTrendingNewsItem(data) {
+  return `
+  <div class="d-flex align-items-center bg-white mb-3 trending-news" style="height: 110px;">
+    <img class="img-fluid img-trending-news" src="${data.thumb}" alt="">
+    <div
+        class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
+        <div class="mb-2">
+            <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2 category"
+                href="">${data.category.name}</a>
+            <a class="text-body" href=""><small class="date">${renderDate(
+              data.publish_date
+            )}</small></a>
+        </div>
+        <a class="h6 m-0 text-secondary text-uppercase font-weight-bold title"
+            href="">${data.title}</a>
+   </div>
+</div>
+  `;
+}
+function renderPopularItem(data) {
+  return `
+  <div class="mb-3 popular">
+      <div class="mb-2">
+          <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2 category"
+              href="">${data.category.name}</a>
+          <a class="text-body" href=""><small class="date">${renderDate(
+            data.publish_date
+          )}</small></a>
+      </div>
+      <a class="small text-body text-uppercase font-weight-medium title" href="">${
+        data.title
+      }</a>
+  </div>
+  `;
 }
 // ASYNC FUNCTION
 async function getCategoriesNews(offset = 0, limit = 15) {
