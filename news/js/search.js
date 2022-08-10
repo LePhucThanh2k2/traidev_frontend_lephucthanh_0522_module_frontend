@@ -17,7 +17,7 @@ const eleBtnSearch = document.getElementById("btn-search");
 const eleLinkSearch = document.getElementById("link-search");
 // CALL FUNCTION
 renderMenu();
-renderCategories();
+renderCategories(0, 14);
 renderTrendingNews();
 renderTags();
 renderPopularNews();
@@ -153,7 +153,7 @@ function renderFirstCategoryItem(data) {
               </div>
               <a class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold"
                   href="">${data.title}</a>
-              <p class="m-0">${data.description}</p>
+              <p class="m-0">${data.description}}</p>
           </div>
           <div class="d-flex justify-content-between bg-white border-top mt-auto p-4">
               <div class="d-flex align-items-center">
@@ -212,6 +212,19 @@ function renderTrendingNewsItem(data) {
        </div>
     </div>
       `;
+}
+
+function renderFoundKeyWord(data, key) {
+  const strKey = key.toLowerCase();
+  let newName = "";
+  const keyWords = new RegExp(strKey, "gim");
+  const haveKeyword = data.description.toLowerCase().includes(strKey);
+  if (haveKeyword) {
+    newName = data.description.replace(keyWords, function (match) {
+      return "<mark>" + match + "</mark>";
+    });
+  }
+  return newName;
 }
 function renderPopularItem(data) {
   return `
