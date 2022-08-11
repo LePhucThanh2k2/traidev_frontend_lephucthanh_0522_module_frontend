@@ -1,36 +1,3 @@
-const API = axios.create({
-  baseURL: "http://apiforlearning.zendvn.com/api/",
-});
-
-const eleMenu = document.getElementById("menu");
-const eleTopMenuLeft = document.querySelector("#top-news-left");
-const eleTopMenuRight = document.querySelector("#top-news-right");
-const eleFeatureNews = document.getElementById("feature-news");
-const eleLatestNews = document.getElementById("latest-news");
-const eleTrendingNews = document.getElementById("trending-news");
-const eleTags = document.querySelector(".tags");
-const elePopularNews = document.querySelector("#popular");
-const eleCategories = document.querySelector(".footer-categories");
-const eleLoadMore = document.getElementById("append-latest-news");
-const eleSearch = document.getElementById("input-search");
-const eleBtnSearch = document.getElementById("btn-search");
-const eleLinkSearch = document.getElementById("link-search");
-// --------------------EVENT-------------------------
-eleLoadMore.addEventListener("click", () => {
-  renderLatestNews(0, 18);
-  eleLoadMore.style.display = "none";
-});
-
-eleBtnSearch.addEventListener("click", () => {
-  handleSearch();
-});
-eleSearch.addEventListener("keypress", function (event) {
-  // If the user presses the "Enter" key on the keyboard
-  if (event.key === "Enter") {
-    // Trigger the button element with a click
-    eleBtnSearch.click();
-  }
-});
 
 // -------------------------------------------------
 renderMenu();
@@ -44,7 +11,7 @@ renderPopularNews();
 
 // RENDER FUNCTION
 function handleSearch() {
-  const keyword = eleSearch.value;
+  const keyword = eleSearch.value.trim();
   const link = `search.html?keyword=${keyword}`;
   eleLinkSearch.href = `${link}`;
 }
@@ -174,6 +141,21 @@ function renderLatestNews(offset, limit) {
   });
 }
 
+function loadMoreLatestNews(offset) {
+  getArticles(offset, 4).then(res => {
+    if (res.data) {
+      let content = '';
+      res.data.forEach(item => {
+        content += renderLatestNewsThirdItem(item);
+      });
+      eleLatestNews.innerHTML += content;
+      eleLoadMore.innerText = 'Xem thêm';
+    } else {
+      eleLoadMore.remove();
+    }
+  })
+}
+
 function renderTrendingNews() {
   getArticlesTop(4).then((res) => {
     const data = res.data;
@@ -210,37 +192,7 @@ function renderPopularNews() {
     `;
   });
 }
-function renderDate(date) {
-  // years, months, weeks, days, hours, minutes, seconds
-  const dateApi = date;
-  const dateCurrent = moment().format("YYYY-MM-DD hh:mm:ss");
-  const a = moment(dateApi);
-  const b = moment(dateCurrent);
-  const seconds = b.diff(a, "seconds");
-  let result = "";
-  if (seconds <= 60) {
-    result = result + " giây trước";
-  }
-  if (seconds > 60) {
-    result = b.diff(a, "minutes") + " phút trước";
-  }
-  if (seconds > 3600) {
-    result = b.diff(a, "hours") + " giờ trước";
-  }
-  if (seconds > 86400) {
-    result = b.diff(a, "days") + " ngày trước";
-  }
-  if (seconds > 604800) {
-    result = b.diff(a, "weeks") + " tuần trước";
-  }
-  if (seconds > 2419200) {
-    result = b.diff(a, "months") + " tháng trước";
-  }
-  if (seconds > 29030400) {
-    result = b.diff(a, "years") + " năm trước";
-  }
-  return result;
-}
+
 // RENDER ITEMS
 function renderTopNewsItem(data, height = 200, classAttrImg = "") {
   return `
@@ -371,30 +323,4 @@ function renderPopularItem(data) {
       }</a>
   </div>
   `;
-}
-// ASYNC FUNCTION
-async function getCategoriesNews(offset = 0, limit = 15) {
-  return await API.get("categories_news", {
-    params: {
-      offset: offset,
-      limit: limit,
-    },
-  });
-}
-
-async function getArticlesTop(limit = 10) {
-  return await API.get("articles/top-articles", {
-    params: {
-      limit: limit,
-    },
-  });
-}
-
-async function getArticles(offset = 0, limit = 12) {
-  return await API.get(`articles`, {
-    params: {
-      offset: offset,
-      limit: limit,
-    },
-  });
 }

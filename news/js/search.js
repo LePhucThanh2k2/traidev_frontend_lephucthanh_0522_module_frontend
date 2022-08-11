@@ -152,8 +152,8 @@ function renderFirstCategoryItem(data) {
                   )}</small></a>
               </div>
               <a class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold"
-                  href="">${data.title}</a>
-              <p class="m-0">${data.description}}</p>
+                  href="">${highlight(data.title, keyword)}</a>
+              <p class="m-0">${highlight(data.description, keyword)}}</p>
           </div>
           <div class="d-flex justify-content-between bg-white border-top mt-auto p-4">
               <div class="d-flex align-items-center">
@@ -185,9 +185,7 @@ function renderLastCategoryItem(data) {
                 data.publish_date
               )}</small></a>
           </div>
-          <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="">${
-            data.title
-          }</a>
+          <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="">${highlight(data.title, keyword)}</a>
       </div>
       </div>
   </div>
@@ -226,6 +224,15 @@ function renderFoundKeyWord(data, key) {
   }
   return newName;
 }
+
+function highlight(str, keyword) {
+  if (keyword) {
+    const regex = new RegExp(keyword, "gim");
+    return str.replace(regex, match => "<mark>" + match + "</mark>");
+  }
+  return str;
+}
+
 function renderPopularItem(data) {
   return `
       <div class="mb-3 popular">
