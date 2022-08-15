@@ -10100,7 +10100,7 @@ a#title,
 }
 .img-fluid.w-100 {
   width: 364px;
-  height: 218px;
+  height: auto;
   object-fit: cover;
 }
 #append-latest-news {
@@ -10135,4 +10135,86 @@ a#title,
   display: flex !important;
   align-content: center;
   align-items: stretch;
+}
+#title-trending-news {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+#flex-col {
+  display: flex;
+  flex-direction: column;
+}
+.container-weather {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #dee2e6;
+  border-top: 0;
+}
+.hot {
+  background-image: url(../img/hot.jpg);
+  background-position: center;
+  background-size: cover;
+}
+.warm {
+  background-image: url(../img/warm.jpg);
+  background-position: center;
+  background-size: cover;
+}
+.cold {
+  background-image: url(../img/cold.jpg);
+  background-position: center;
+  background-size: cover;
+}
+.cool {
+  background-image: url(../img/cool.jpg);
+  background-position: center;
+  background-size: cover;
+}
+.location {
+  margin-top: 5px;
+  border: 1px #ccc solid;
+  width: 85%;
+  padding: 10px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.temperature {
+  font-size: 5rem;
+  color: #fff;
+  border: 1px #ccc solid;
+  padding: 10px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #1e2024);
+  border-radius: 15px;
+}
+.container-weather p {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.75),
+    rgba(255, 255, 255, 0.75)
+  );
+  padding: 5px 10px;
+  color: #333;
+  font-weight: 600;
+  font-size: 1rem;
+}
+.group-icon {
+  display: flex;
+}
+.group-icon i {
+  color: var(--red);
+}
+.group-icon p {
+  border-left: 1px red solid;
+}
+.page {
+  cursor: pointer;
+}
+.btn-next,
+.btn-prev {
+  cursor: pointer;
 }

@@ -1,4 +1,3 @@
-
 // -------------------------------------------------
 renderMenu();
 renderTopNews();
@@ -7,6 +6,7 @@ renderLatestNews(0, 12);
 renderTrendingNews();
 renderTags();
 renderPopularNews();
+getDataWeather();
 // ------------------------------------
 
 // RENDER FUNCTION
@@ -142,18 +142,18 @@ function renderLatestNews(offset, limit) {
 }
 
 function loadMoreLatestNews(offset) {
-  getArticles(offset, 4).then(res => {
+  getArticles(offset, 4).then((res) => {
     if (res.data) {
-      let content = '';
-      res.data.forEach(item => {
+      let content = "";
+      res.data.forEach((item) => {
         content += renderLatestNewsThirdItem(item);
       });
       eleLatestNews.innerHTML += content;
-      eleLoadMore.innerText = 'Xem thêm';
+      eleLoadMore.innerText = "Xem thêm";
     } else {
       eleLoadMore.remove();
     }
-  })
+  });
 }
 
 function renderTrendingNews() {
@@ -172,8 +172,8 @@ function renderTags() {
     let htmlCategories = "";
     const data = res.data;
     data.forEach((item) => {
-      htmlTag += ` <a href="" class="btn btn-sm btn-outline-secondary m-1">${item.name}</a>`;
-      htmlCategories += ` <a href="" class="btn btn-sm btn-secondary m-1">${item.name}</a>`;
+      htmlTag += ` <a href="category.html?id=${item.id}" class="btn btn-sm btn-outline-secondary m-1">${item.name}</a>`;
+      htmlCategories += ` <a href="category.html?id=${item.id}" class="btn btn-sm btn-secondary m-1">${item.name}</a>`;
     });
     eleTags.innerHTML = htmlTag;
     eleCategories.innerHTML = htmlCategories;
@@ -227,9 +227,9 @@ function renderFeatureNewsItem(data) {
              data.publish_date
            )}</small></a>
        </div>
-       <a class="h6 m-0 text-white text-uppercase font-weight-semi-bold title" href="">${
-         data.title
-       }</a>
+       <a class="h6 m-0 text-white text-uppercase font-weight-semi-bold title" href="single.html?id=${
+         data.id
+       }">${data.title}</a>
    </div>
 </div>`;
 }
@@ -252,7 +252,7 @@ function renderLatestNewsPrimaryItem(data, isShowDesc = true) {
           )}</small></a>
         </div>
         <a class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold title"id="title"
-            href="">${data.title}</a>
+            href="single.html?id=${data.id}">${data.title}</a>
         ${desc}
       </div>
       <div class="d-flex justify-content-between bg-white border border-top-0 p-4">
@@ -282,9 +282,9 @@ function renderLatestNewsThirdItem(data) {
             data.publish_date
           )}</small></a>
         </div>
-        <a class="h6 m-0 text-secondary text-uppercase font-weight-bold title" href="">${
-          data.title
-        }</a>
+        <a class="h6 m-0 text-secondary text-uppercase font-weight-bold title" href="single.html?id=${
+          data.id
+        }">${data.title}</a>
       </div>
     </div>
   </div>`;
@@ -295,15 +295,15 @@ function renderTrendingNewsItem(data) {
     <img class="img-fluid img-trending-news" src="${data.thumb}" alt="">
     <div
         class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
-        <div class="mb-2">
+        <div class="mb-2"id="flex-col">
             <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2 category"
                 href="">${data.category.name}</a>
             <a class="text-body" href=""><small class="date">${renderDate(
               data.publish_date
             )}</small></a>
         </div>
-        <a class="h6 m-0 text-secondary text-uppercase font-weight-bold title"
-            href="">${data.title}</a>
+        <a class="h6 m-0 text-secondary text-uppercase font-weight-bold title" id="title-trending-news"
+            href="single.html?id=${data.id}">${data.title}</a>
    </div>
 </div>
   `;
@@ -318,9 +318,9 @@ function renderPopularItem(data) {
             data.publish_date
           )}</small></a>
       </div>
-      <a class="small text-body text-uppercase font-weight-medium title" href="">${
-        data.title
-      }</a>
+      <a class="small text-body text-uppercase font-weight-medium title" href="single.html?id=${
+        data.id
+      }">${data.title}</a>
   </div>
   `;
 }
