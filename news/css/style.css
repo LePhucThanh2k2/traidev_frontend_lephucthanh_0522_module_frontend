@@ -10218,3 +10218,9 @@ a#title,
 .btn-prev {
   cursor: pointer;
 }
+.d-flex.justify-content-between.bg-white.border.border-top-0.p-4 {
+  margin-top: auto;
+}
+.img-fluid.w-100 {
+  height: 200px;
+}

@@ -124,7 +124,7 @@ function renderLatestNews(offset, limit) {
       } else if (idx <= 3) {
         htmlSecondary += `<div class="col-lg-6">${renderLatestNewsPrimaryItem(
           item,
-          false
+          true
         )}</div>`;
       } else {
         htmlThird += renderLatestNewsThirdItem(item);
@@ -263,7 +263,9 @@ function renderLatestNewsPrimaryItem(data, isShowDesc = true) {
         </div>
         <div class="d-flex align-items-center">
           <small class="ml-3"><i class="far fa-eye mr-2"></i>12345</small>
-          <small class="ml-3"><i class="far fa-comment mr-2"></i>123</small>
+          <small class="ml-3"><i class="far fa-comment mr-2"></i>${total_comment_by_id(
+            data.id
+          )}</small>
         </div>
       </div>
     </div>`;

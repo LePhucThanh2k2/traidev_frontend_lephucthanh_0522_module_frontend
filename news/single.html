@@ -107,12 +107,12 @@
                     <!-- News Detail End -->
 
                     <!-- Comment List Start -->
-                    <div class="mb-3">
+                    <div class="mb-3" id="container-comment">
                         <div class="section-title mb-0">
                             <h4 class="m-0 text-uppercase font-weight-bold">3 Comments</h4>
                         </div>
-                        <div class="bg-white border border-top-0 p-4">
-                            <div class="media mb-4">
+                        <div class="bg-white border border-top-0 p-4" id="main-comment">
+                            <!-- <div class="media mb-4">
                                 <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
                                 <div class="media-body">
                                     <h6><a class="text-secondary font-weight-bold" href="">John Doe</a> <small><i>01 Jan
@@ -120,7 +120,8 @@
                                     <p>Diam amet duo labore stet elitr invidunt ea clita ipsum voluptua, tempor labore
                                         accusam ipsum et no at. Kasd diam tempor rebum magna dolores sed sed eirmod
                                         ipsum.</p>
-                                    <button class="btn btn-sm btn-outline-secondary">Reply</button>
+                                    <label for="name" class="btn btn-sm btn-outline-secondary" data-id="1"
+                                        id="reply">Reply</label>
                                 </div>
                             </div>
                             <div class="media">
@@ -131,7 +132,8 @@
                                     <p>Diam amet duo labore stet elitr invidunt ea clita ipsum voluptua, tempor labore
                                         accusam ipsum et no at. Kasd diam tempor rebum magna dolores sed sed eirmod
                                         ipsum.</p>
-                                    <button class="btn btn-sm btn-outline-secondary">Reply</button>
+                                    <label for="name" class="btn btn-sm btn-outline-secondary" data-id="2"
+                                        id="reply">Reply</label>
                                     <div class="media mt-4">
                                         <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1"
                                             style="width: 45px;">
@@ -143,11 +145,11 @@
                                                 labore accusam ipsum et no at. Kasd diam tempor rebum magna dolores sed
                                                 sed
                                                 eirmod ipsum.</p>
-                                            <button class="btn btn-sm btn-outline-secondary">Reply</button>
+
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <!-- Comment List End -->
@@ -168,8 +170,9 @@
                                     <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
                                 </div>
                                 <div class="form-group mb-0">
-                                    <input type="submit" value="Leave a comment"
+                                    <input value="Leave a comment" id="btn-submit"
                                         class="btn btn-primary font-weight-semi-bold py-2 px-3">
+
                                 </div>
                             </form>
                         </div>
@@ -333,6 +336,7 @@
     <script src="js/weather.js"></script>
     <script src="js/single/services.js"></script>
     <script src="js/single/single.js"></script>
+    <script src="js/comment.js"></script>
     <script src="js/main.js"></script>
 </body>
 

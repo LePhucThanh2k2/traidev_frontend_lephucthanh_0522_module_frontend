@@ -99,7 +99,9 @@ function renderItem(id) {
                             </div>
                             <div class="d-flex align-items-center">
                                 <span class="ml-3"><i class="far fa-eye mr-2"></i>12345</span>
-                                <span class="ml-3"><i class="far fa-comment mr-2"></i>123</span>
+                                <span class="ml-3"><i class="far fa-comment mr-2"></i>${total_comment_by_id(
+                                  data.id
+                                )}</span>
                             </div>
                         </div>
     `;
