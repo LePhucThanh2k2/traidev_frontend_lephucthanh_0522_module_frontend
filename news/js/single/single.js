@@ -4,6 +4,9 @@ renderTrendingNews();
 renderTags();
 renderPopularNews();
 getDataWeather();
+if (Object.keys(data).length > 0) {
+  renderComment(id);
+}
 // RENDER FUNCTION
 function handleSearch() {
   const keyword = eleSearch.value;
@@ -15,6 +18,7 @@ function renderMenu() {
     const data = res.data;
     let htmlMenuItems = "";
     let htmlMenuItemsOther = "";
+    let htmlMenuFavourite = `<a href="favorite.html" class="nav-item nav-link">Yêu Thích</a>`;
     data.forEach((item, index) => {
       const link = `category.html?id=${item.id}`;
       const name = item.name;
@@ -32,7 +36,7 @@ function renderMenu() {
       </div>
       `;
 
-    eleMenu.innerHTML = htmlMenuItems + htmlMenuItemsOther;
+    eleMenu.innerHTML = htmlMenuItems + htmlMenuItemsOther + htmlMenuFavourite;
   });
 }
 

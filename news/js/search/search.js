@@ -78,6 +78,8 @@ function renderMenu() {
     const data = res.data;
     let htmlMenuItems = "";
     let htmlMenuItemsOther = "";
+    let htmlMenuFavourite = `<a href="favorite.html" class="nav-item nav-link">Yêu Thích</a>`;
+
     data.forEach((item, index) => {
       const link = `category.html?id=${item.id}`;
       const name = item.name;
@@ -95,7 +97,7 @@ function renderMenu() {
         </div>
         `;
 
-    eleMenu.innerHTML = htmlMenuItems + htmlMenuItemsOther;
+    eleMenu.innerHTML = htmlMenuItems + htmlMenuItemsOther + htmlMenuFavourite;
   });
 }
 
@@ -128,7 +130,10 @@ function renderFirstCategoryItem(data) {
                   )}</small></a>
               </div>
               <a class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold"
-                  href="">${highlight(data.title, keywordUrl)}</a>
+                  href="single.html?id=${data.id}">${highlight(
+    data.title,
+    keywordUrl
+  )}</a>
               <p class="m-0">${highlight(data.description, keywordUrl)}}</p>
           </div>
           <div class="d-flex justify-content-between bg-white border-top mt-auto p-4">
@@ -139,7 +144,12 @@ function renderFirstCategoryItem(data) {
               </div>
               <div class="d-flex align-items-center">
                   <small class="ml-3"><i class="far fa-eye mr-2"></i>12345</small>
-                  <small class="ml-3"><i class="far fa-comment mr-2"></i>123</small>
+                  <small class="ml-3"><i class="far fa-comment mr-2"></i>${total_comment_by_id(
+                    data.id
+                  )}</small>
+                  <small class="ml-3 favorite-icon" data-id="${
+                    data.id
+                  }"><i class="fa-solid fa-heart"></i></small>
               </div>
           </div>
       </div>

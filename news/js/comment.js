@@ -6,8 +6,7 @@ const eleMainComment = document.getElementById("main-comment");
 let configData = JSON.parse(localStorage.getItem("comment")) || {};
 let parent_id = null;
 let total_comment = 0;
-
-renderComment();
+let id_category = null;
 
 $(document).on("click", "#reply", function (e) {
   const ele = e.target;
@@ -15,14 +14,14 @@ $(document).on("click", "#reply", function (e) {
 });
 
 eleBtnSubmit.addEventListener("click", () => {
-  let arr = configData[id] || [];
+  let arr = configData[id_category] || [];
   let id_comment = arr.length + 1;
   let obj = {};
   obj["id"] = id_comment + "";
   obj["name"] = eleInputName.value;
   obj["message"] = eleTextArea.value;
   obj["date"] = renderDate(moment().format());
-  obj["article_id"] = id;
+  obj["article_id"] = id_category;
   obj["parent_id"] = parent_id;
   arr.push(obj);
   configData[id] = arr;
@@ -31,16 +30,16 @@ eleBtnSubmit.addEventListener("click", () => {
   eleInputName.value = "";
   eleTextArea.value = "";
   parent_id = null;
-  renderComment();
+  renderComment(id_category);
 });
 // FUNCTION
-function renderComment() {
+function renderComment(id) {
+  id_category = id;
   let html = "";
   const data = JSON.parse(localStorage.getItem("comment"));
-  if (data[id]) {
-    total_comment = data[id].length;
+  if (data[id_category]) {
+    total_comment = data[id_category].length;
     const arr = data[id];
-
     arr.forEach((item) => {
       const name = item.name;
       const date = item.date;
@@ -50,32 +49,28 @@ function renderComment() {
       if (!parent_id) {
         html += renderItemCommentParent(name, date, message, id_item);
       }
-    });
-    eleContainerComment.innerHTML = `
-    <div class="mb-3" id="container-comment">
-      <div class="section-title mb-0">
-        <h4 class="m-0 text-uppercase font-weight-bold">${total_comment} Comments</h4>
-        </div>
-        <div class="bg-white border border-top-0 p-4" id="main-comment">
-          ${html}
-        </div>
-      </div>
-    </div>
-    `;
-    arr.forEach((item) => {
-      const name = item.name;
-      const date = item.date;
-      const message = item.message;
-      const parent_id = item.parent_id;
       if (parent_id) {
         const mainParent = document.getElementById("main" + parent_id);
+        // console.log("prev", mainParent.innerHTML);
         mainParent.innerHTML += renderItemCommentChild(name, date, message);
+        // console.log("next", mainParent.innerHTML);
       }
+      eleContainerComment.innerHTML = `
+      <div class="mb-3" id="container-comment">
+        <div class="section-title mb-0">
+          <h4 class="m-0 text-uppercase font-weight-bold">${total_comment} Comments</h4>
+          </div>
+          <div class="bg-white border border-top-0 p-4" id="main-comment">
+            ${html}
+          </div>
+        </div>
+      </div>
+      `;
     });
   }
 
-  if (!data[id]) eleContainerComment.innerHTML = "";
-  renderItem(id);
+  if (!data[id_category]) eleContainerComment.innerHTML = "";
+  renderItem(id_category);
 }
 
 function renderItemCommentParent(name, date, message, id_item) {
@@ -109,12 +104,4 @@ function renderItemCommentChild(name, date, message) {
     </div>
   </div>
   `;
-}
-function total_comment_by_id(id_category) {
-  let data = JSON.parse(localStorage.getItem("comment"));
-  let result = 0;
-  if (data[parseInt(id_category)]) {
-    result = data[parseInt(id_category)].length;
-  }
-  return result;
 }

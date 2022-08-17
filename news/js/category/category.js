@@ -76,6 +76,7 @@ function renderMenu() {
     const data = res.data;
     let htmlMenuItems = "";
     let htmlMenuItemsOther = "";
+    let htmlMenuFavourite = `<a href="favorite.html" class="nav-item nav-link">Yêu Thích</a>`;
     data.forEach((item, index) => {
       const link = `category.html?id=${item.id}`;
       const name = item.name;
@@ -93,7 +94,7 @@ function renderMenu() {
       </div>
       `;
 
-    eleMenu.innerHTML = htmlMenuItems + htmlMenuItemsOther;
+    eleMenu.innerHTML = htmlMenuItems + htmlMenuItemsOther + htmlMenuFavourite;
   });
 }
 
@@ -140,6 +141,11 @@ function renderFirstCategoryItem(data) {
                 <small class="ml-3"><i class="far fa-comment mr-2"></i>${total_comment_by_id(
                   data.id
                 )}</small>
+                <small class="ml-3 favorite-icon ${renderActive(
+                  data.id
+                )}" data-id="${
+    data.id
+  }"><i class="fa-solid fa-heart"></i></small>
             </div>
         </div>
     </div>
