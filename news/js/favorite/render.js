@@ -13,7 +13,7 @@ function renderCategories() {
 
 function renderFirstCategoryItem(data) {
   return `
-  <div class="col-lg-12">
+  <div class="col-lg-12 article-item">
       <div class="row news-lg mx-0 mb-3">
       <div class="col-md-6 h-100 px-0">
           <img class="img-fluid h-100" src="${data.thumb}"
@@ -56,9 +56,9 @@ function renderFirstCategoryItem(data) {
       `;
 }
 renderCategories();
-$(document).on("click", ".favorite-icon", function (e) {
-  const ele = e.target;
-  let isActive = this.classList.contains("active");
-  let id_category = this.dataset.id;
-  renderCategories();
-});
+// $(document).on("click", ".favorite-icon", function (e) {
+//   const ele = e.target;
+//   let isActive = this.classList.contains("active");
+//   let id_category = this.dataset.id;
+//   renderCategories();
+// });

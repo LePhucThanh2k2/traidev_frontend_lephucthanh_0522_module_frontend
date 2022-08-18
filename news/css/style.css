@@ -10237,3 +10237,7 @@ a#title,
   margin: 0;
   color: #ccc;
 }
+
+.favorite-icon i {
+  pointer-events: none;
+}

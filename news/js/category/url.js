@@ -1,3 +1,4 @@
 const queryString = window.location.search;
 const searchParams = new URLSearchParams(queryString);
-const id = searchParams.get("id");
+const id = parseInt(searchParams.get("id"));
+if (!Boolean(id)) window.location.href = 'index.html';

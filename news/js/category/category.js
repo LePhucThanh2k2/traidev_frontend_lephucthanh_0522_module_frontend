@@ -14,10 +14,14 @@ function handleSearch() {
 
 function renderCategories(start, end) {
   getArticles(start, end).then((res) => {
+    console.log(res);
     let htmlFirst = "";
     let htmlLast = "";
     let categoryName = "";
     const data = res.data;
+
+    if (data.length === 0) window.location.href = 'index.html';
+
     data.forEach((item, idx) => {
       categoryName = item.category.name;
       if (idx <= 3) {

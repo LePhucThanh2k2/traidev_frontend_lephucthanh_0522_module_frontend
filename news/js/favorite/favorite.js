@@ -1,19 +1,16 @@
 let configData = JSON.parse(localStorage.getItem("favorite")) || [];
-$(document).on("click", ".favorite-icon", function (e) {
+
+document.addEventListener('click', (e) => {
   const ele = e.target;
-  let isActive = this.classList.contains("active");
-  let id_category = this.dataset.id;
-  if (isActive) {
-    let index = configData.indexOf(id_category + "");
+
+  if (ele.classList.contains('favorite-icon')) {
+    const id = ele.dataset.id;
+    let index = configData.indexOf(id);
     configData.splice(index, 1);
-    this.classList.remove("active");
-    localStorage.setItem("favorite", JSON.stringify(configData));
-  } else {
-    configData.push(id_category);
-    this.classList.add("active");
-    localStorage.setItem("favorite", JSON.stringify(configData));
+    ele.closest('.article-item').remove();
+    localStorage.setItem('favorite', JSON.stringify(configData));
   }
-});
+})
 
 function renderActive(id) {
   let str = "";

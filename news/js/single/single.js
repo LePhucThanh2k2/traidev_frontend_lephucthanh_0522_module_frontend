@@ -83,32 +83,29 @@ function renderItem(id) {
     const data = res.data;
     let html = `
     <img class="img-fluid w-100" src="${data.thumb}" style="object-fit: cover;">
-                        <div class="bg-white border border-top-0 p-4">
-                            <div class="mb-3">
-                                <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
-                                    href="">${data.category.name}</a>
-                                <span class="text-body" href="">${renderDate(
-                                  data.publish_date
-                                )}</span>
-                            </div>
-                            <h1 class="mb-3 text-secondary text-uppercase font-weight-bold">${
-                              data.title
-                            }</h1>
-                            <p>${data.content}</p>
-                        </div>
-                        <div class="d-flex justify-content-between bg-white border border-top-0 p-4">
-                            <div class="d-flex align-items-center">
-                                <img class="rounded-circle mr-2" src="img/user.jpg" width="25" height="25" alt="">
-                                <span>John Doe</span>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="ml-3"><i class="far fa-eye mr-2"></i>12345</span>
-                                <span class="ml-3"><i class="far fa-comment mr-2"></i>${total_comment_by_id(
-                                  data.id
-                                )}</span>
-                            </div>
-                        </div>
-    `;
+    <div class="bg-white border border-top-0 p-4">
+        <div class="mb-3">
+            <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
+                href="">${data.category.name}</a>
+            <span class="text-body" href="">${renderDate(
+              data.publish_date
+            )}</span>
+        </div>
+        <h1 class="mb-3 text-secondary text-uppercase font-weight-bold">${
+          data.title
+        }</h1>
+        <p>${data.content}</p>
+    </div>
+    <div class="d-flex justify-content-between bg-white border border-top-0 p-4">
+        <div class="d-flex align-items-center">
+            <img class="rounded-circle mr-2" src="img/user.jpg" width="25" height="25" alt="">
+            <span>John Doe</span>
+        </div>
+        <div class="d-flex align-items-center">
+            <span class="ml-3"><i class="far fa-eye mr-2"></i>12345</span>
+            <span class="ml-3"><i class="far fa-comment mr-2"></i><span class="total-comments">${total_comment_by_id(data.id)}</span></span>
+        </div>
+    </div>`;
     eleCategory.innerHTML = html;
   });
 }
