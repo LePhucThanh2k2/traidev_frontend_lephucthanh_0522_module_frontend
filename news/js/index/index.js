@@ -269,7 +269,9 @@ function renderLatestNewsPrimaryItem(data, isShowDesc = true) {
           )}</small>
             <small class="ml-3 favorite-icon ${renderActive(
               data.id
-            )}" data-id="${data.id}"><i class="fa-solid fa-heart"></i></small>
+            )}" data-id="${data.id}">
+            <i class="fa-solid fa-heart"></i>
+            </small>
           </div>
       </div>
     </div>`;
