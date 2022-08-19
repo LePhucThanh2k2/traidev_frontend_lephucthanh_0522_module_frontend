@@ -173,6 +173,11 @@ function renderLastCategoryItem(data) {
         <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="single.html?id=${
           data.id
         }">${data.title}</a>
+        <span class=" favorite-icon ${renderActive(data.id)}" data-id="${
+    data.id
+  }" id="favorite-third">
+              <i class="fa-solid fa-heart"></i>
+              </span>
     </div>
     </div>
 </div>

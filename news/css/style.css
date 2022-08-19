@@ -10262,3 +10262,6 @@ a#title,
   border-radius: 50%;
   background-color: rgba(25, 25, 25, 0.3);
 }
+#favorite-third {
+  font-size: 1.5rem;
+}
