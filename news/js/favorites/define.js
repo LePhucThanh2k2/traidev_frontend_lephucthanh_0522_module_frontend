@@ -8,3 +8,4 @@ const eleCategories = document.querySelector(".footer-categories");
 const eleSearch = document.getElementById("input-search");
 const eleBtnSearch = document.getElementById("btn-search");
 const eleLinkSearch = document.getElementById("link-search");
+let dataLocal = JSON.parse(localStorage.getItem("favorite")) || [];

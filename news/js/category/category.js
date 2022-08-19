@@ -67,7 +67,7 @@ function renderPopularNews() {
       htmlPopular += renderPopularItem(item);
     });
     elePopularNews.innerHTML = `
-      <h5 class="mb-4 text-white text-uppercase font-weight-bold">Popular News</h5>
+      <h5 class="mb-4 text-white text-uppercase font-weight-bold">Tin tức phổ biến</h5>
       ${htmlPopular}
       `;
   });
@@ -105,7 +105,7 @@ function renderCategoryItem(categoryName, first, last) {
   return `
     <div class="col-12">
     <div class="section-title">
-        <h4 class="m-0 text-uppercase font-weight-bold">Category: ${categoryName}</h4>
+        <h4 class="m-0 text-uppercase font-weight-bold">${categoryName}</h4>
     </div>
     </div>
     ${first}

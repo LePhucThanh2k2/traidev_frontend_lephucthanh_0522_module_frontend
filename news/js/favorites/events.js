@@ -1,4 +1,5 @@
 // EVENT
+
 eleBtnSearch.addEventListener("click", () => {
   handleSearch();
 });
@@ -10,14 +11,13 @@ eleSearch.addEventListener("keypress", function (event) {
   }
 });
 document.addEventListener("click", (e) => {
-  let data = JSON.parse(localStorage.getItem("favorite")) || [];
   const ele = e.target;
 
   if (ele.classList.contains("favorite-icon")) {
     const id = ele.dataset.id;
-    let index = data.indexOf(id);
-    data.splice(index, 1);
-    localStorage.setItem("favorite", JSON.stringify(data));
+    let index = dataLocal.indexOf(id);
+    dataLocal.splice(index, 1);
+    localStorage.setItem("favorite", JSON.stringify(dataLocal));
     ele.closest(".article-item").remove();
   }
 });

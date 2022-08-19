@@ -10,11 +10,7 @@ getDataWeather();
 // ------------------------------------
 
 // RENDER FUNCTION
-function handleSearch() {
-  const keyword = eleSearch.value.trim();
-  const link = `search.html?keyword=${keyword}`;
-  eleLinkSearch.href = `${link}`;
-}
+
 function renderMenu() {
   getCategoriesNews().then((res) => {
     const data = res.data;
@@ -134,7 +130,7 @@ function renderLatestNews(offset, limit) {
     eleLatestNews.innerHTML = `
     <div class="col-12">
       <div class="section-title">
-        <h4 class="m-0 text-uppercase font-weight-bold">Latest News</h4>
+        <h4 class="m-0 text-uppercase font-weight-bold">Tin Tức mới nhất</h4>
         <a class="text-secondary font-weight-medium text-decoration-none" href="">View All</a>
       </div>
     </div>
@@ -188,7 +184,7 @@ function renderPopularNews() {
       htmlPopular += renderPopularItem(item);
     });
     elePopularNews.innerHTML = `
-    <h5 class="mb-4 text-white text-uppercase font-weight-bold">Popular News</h5>
+    <h5 class="mb-4 text-white text-uppercase font-weight-bold">Tin Tức Phổ Biến</h5>
     ${htmlPopular}
     `;
   });
@@ -219,6 +215,11 @@ function renderTopNewsItem(data, height = 200, classAttrImg = "") {
 function renderFeatureNewsItem(data) {
   return ` 
   <div class="position-relative overflow-hidden feature-news" style="height: 300px;">
+  <span class="ml-3 favorite-icon ${renderActive(data.id)}" data-id="${
+    data.id
+  }" id="favorite-secondary">
+  <i class="fa-solid fa-heart"></i>
+  </span>
    <img class="img-fluid h-100" src="${data.thumb}" style="object-fit: cover;">
    <div class="overlay">
        <div class="mb-2">
