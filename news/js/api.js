@@ -1,5 +1,5 @@
 const API = axios.create({
-  baseURL: "http://apiforlearning.zendvn.com/api/",
+  baseURL: "https://apiforlearning.zendvn.com/api/",
 });
 
 const API_WEATHER = axios.create({
