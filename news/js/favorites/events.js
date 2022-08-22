@@ -12,8 +12,8 @@ eleSearch.addEventListener("keypress", function (event) {
 });
 document.addEventListener("click", (e) => {
   const ele = e.target;
-  unFavorite("Đã Bỏ Yêu Thích");
   if (ele.classList.contains("favorite-icon")) {
+    unFavorite("Đã Bỏ Yêu Thích");
     const id = ele.dataset.id;
     let index = dataLocal.indexOf(id);
     dataLocal.splice(index, 1);
