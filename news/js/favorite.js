@@ -13,10 +13,12 @@ document.addEventListener("click", (e) => {
   if (ele.classList.contains("favorite-icon")) {
     const id = ele.dataset.id;
     if (dataFavorite.includes(id)) {
+      unFavorite("Đã Bỏ Yêu Thích");
       ele.classList.remove("active");
       const index = dataFavorite.indexOf("1454");
       dataFavorite.splice(index, 1);
     } else {
+      haveFavorite("Đã Yêu Thích");
       ele.classList.add("active");
       dataFavorite.push(id);
     }

@@ -3,35 +3,35 @@ const eleTextArea = document.getElementById("message");
 const eleBtnSubmit = document.getElementById("btn-submit");
 const eleContainerComment = document.getElementById("container-comment");
 const eleMainComment = document.getElementById("main-comment");
-const eleReplyFor = document.getElementById('reply-for');
+const eleReplyFor = document.getElementById("reply-for");
 let configData = JSON.parse(localStorage.getItem("comment")) || {};
 let parentId = null;
 let comments = configData[id] || [];
-let replyName = '';
+let replyName = "";
 renderTotalComments(comments.length);
 renderComments(comments);
 
 console.log(comments);
 
-document.addEventListener('click', (e) => {
+document.addEventListener("click", (e) => {
   const ele = e.target;
-  if (ele.classList.contains('btn-reply')) {
+  if (ele.classList.contains("btn-reply")) {
     const level = parseInt(ele.dataset.level);
     const commentId = ele.dataset.id;
     parentId = level === 1 ? ele.dataset.id : ele.dataset.parent;
-    const parent = comments.find(item => item.id === commentId);
-    replyName = level === 1 ? '' : `@${parent.name} `;
-    eleReplyFor.innerHTML = `Trả lời bình luận của ${parent.name} <span class="text-warning" style="cursor: pointer" id="remove-reply-for">X</span>`;
-    eleReplyFor.classList.remove('d-none');
+    const parent = comments.find((item) => item.id === commentId);
+    replyName = level === 1 ? "" : `@${parent.name} `;
+    eleReplyFor.innerHTML = `Trả lời bình luận của <mark>${parent.name} </mark><span class="close-reply" style="cursor: pointer" id="remove-reply-for">X</span>`;
+    eleReplyFor.classList.remove("d-none");
   }
 
-  if (ele.id === 'remove-reply-for') {
-    eleReplyFor.classList.add('d-none');
+  if (ele.id === "remove-reply-for") {
+    eleReplyFor.classList.add("d-none");
     parentId = null;
   }
 
   console.log(parentId);
-})
+});
 
 eleBtnSubmit.addEventListener("click", () => {
   let obj = {
@@ -50,8 +50,8 @@ eleBtnSubmit.addEventListener("click", () => {
   eleInputName.value = "";
   eleTextArea.value = "";
   parentId = null;
-  replyName = '';
-  eleReplyFor.classList.add('d-none');
+  replyName = "";
+  eleReplyFor.classList.add("d-none");
   renderComments(comments);
   renderTotalComments(comments.length);
 });
@@ -60,14 +60,14 @@ function renderComment(item) {
   // const btnReply = item.parentId ? '' : `<label for="name" class="btn btn-sm btn-outline-secondary btn-reply" data-id="${item.id}">Reply</label>`;
   const level = item.parentId ? 2 : 1;
   const btnReply = `<label for="name" class="btn btn-sm btn-outline-secondary btn-reply" data-level="${level}" data-parent="${item.parentId}" data-id="${item.id}">Reply</label>`;
-  const className = item.parentId ? 'mt-4' : 'mb-4';
+  const className = item.parentId ? "mt-4" : "mb-4";
   return `
   <div class="media ${className}">
-    <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
+    <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" id="avatar-comment" style="width: 45px;">
     <div class="media-body" id="comment-item-${item.id}">
       <h6>
         <a class="text-secondary font-weight-bold" href="">${item.name}</a> 
-        <small><i>${item.date}</i></small>
+        <small><i>${renderDate(item.date)}</i></small>
       </h6>
       <p>${item.message}</p>
       ${btnReply}
@@ -76,18 +76,19 @@ function renderComment(item) {
 }
 
 function renderTotalComments(total) {
-  const comments = document.getElementsByClassName('total-comments');
+  const comments = document.getElementsByClassName("total-comments");
   for (let index = 0; index < comments.length; index++) {
     comments[index].innerText = total;
   }
 }
 
 function renderComments(items) {
-  eleMainComment.innerHTML = '';
-  items.forEach(item => {
+  eleMainComment.innerHTML = "";
+  items.forEach((item) => {
     if (item.parentId) {
       const itemChild = renderComment(item);
-      document.getElementById('comment-item-' + item.parentId).innerHTML += itemChild;
+      document.getElementById("comment-item-" + item.parentId).innerHTML +=
+        itemChild;
     } else {
       eleMainComment.innerHTML += renderComment(item);
     }
