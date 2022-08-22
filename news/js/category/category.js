@@ -170,7 +170,7 @@ function renderLastCategoryItem(data) {
               data.publish_date
             )}</small></a>
         </div>
-        <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="single.html?id=${
+        <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" id="title-trending-news" href="single.html?id=${
           data.id
         }">${data.title}</a>
         <span class=" favorite-icon ${renderActive(data.id)}" data-id="${
